@@ -1,6 +1,6 @@
 # SMART 64-Bit ID v1.41
 
-**Status:** Stable / Release Candidate
+**Status:** Stable
 **Specification family:** SMART 64-Bit ID
 **Profile:** Version `0`, Revision `0001`
 **Supersedes:** No — v1.4 remains a separate legacy profile

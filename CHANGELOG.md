@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.41] — Stable
+
+### Established
+
+- Declares the SMART 64-Bit ID v1.41 specification stable.
+- Defines the normative 64-bit layout, validation rules, and version handling.
+- Establishes Engine + Local as the authoritative uniqueness coordinate.
+- Clarifies Class, Role, and Engine-based routing semantics.
+- Keeps deferred governance and future-version topics separate from v1.41 requirements.
+
 All notable changes to SMART 64-Bit ID are documented in this
 file.
 
