@@ -38,3 +38,15 @@ This folder is the self-contained supporting package for the v1.41 profile. The 
 - v1.4 is a separate legacy profile. Do not reinterpret its Region field as v1.41 Class and Reserved fields.
 
 The future use of `Class + Engine` as a larger routing/sharding key, a permanent Engine-to-Class binding rule, and global Engine-number governance are not added by this package; they remain deferred topics outside the frozen v1.41 normative text.
+
+## Project and legal documents
+
+- [Version 1.41 changelog](CHANGELOG.md)
+- [License](LICENSE)
+- [Copyright notice](COPYRIGHT)
+- [Commercial license terms](COMMERCIAL-LICENSE.md)
+- [Contributing guide](CONTRIBUTING.md)
+- [Contributor License Agreement](CLA.md)
+- [AI contribution policy](AI_CONTRIBUTIONS.md)
+
+These documents accompany the v1.41 technical package. The normative requirements for the identifier format remain defined by [SPECIFICATION.md](SPECIFICATION.md).
