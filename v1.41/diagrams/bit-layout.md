@@ -3,12 +3,13 @@
 **Explanatory diagram; normative definitions are in [../SPECIFICATION.md](../SPECIFICATION.md).**
 
 ```text
-MSB                                                                  LSB
-63       62             59 58       54             50 49             29 28             0
-┌────────┬────────────────┬──────────┬────────────────┬─────────────────┬────────────────┐
-│Version │    Revision    │   Role   │   Reserved     │      Class      │     Engine     │ Local          │
-│ 1 bit  │     4 bits     │  1 bit   │    4 bits      │    4 bits       │   21 bits      │ 29 bits        │
-└────────┴────────────────┴──────────┴────────────────┴─────────────────┴────────────────┴────────────────┘
+MSB                                                           LSB
+┌─────────┬──────────┬──────┬──────────┬─────────┬─────────┬─────────┐
+│ Version │ Revision │ Role │ Reserved │  Class  │ Engine  │  Local  │
+│ 1 bit   │ 4 bits   │1 bit │ 4 bits   │ 4 bits  │21 bits  │ 29 bits │
+├─────────┼──────────┼──────┼──────────┼─────────┼─────────┼─────────┤
+│   63    │  62–59   │  58  │  57–54   │  53–50  │  49–29  │  28–0   │
+└─────────┴──────────┴──────┴──────────┴─────────┴─────────┴─────────┘
 ```
 
 Field ranges, stated without relying on drawing alignment:
