@@ -1,0 +1,26 @@
+{
+    "test": "SMART64 SQLite 10,000-allocation acceptance test",
+    "evidence_role": "PRIMARY_CONTEMPORANEOUS_TEST_EVIDENCE",
+    "started_utc": "2026-10-18T20:43:21Z",
+    "script_path": "/home/aziz/Desktop/AI_works/smart64-engine-controller/tests/stress-allocation-10k-evidence.php",
+    "script_sha256": "cfb0d0503e8aa2e4ec800f8c8d2fab84660eb1a1748db8556bf670f6c8f5378c",
+    "php_binary": "/opt/lampp/bin/php-8.2.12",
+    "php_version": "8.2.12",
+    "php_sapi": "cli",
+    "os": "Linux aziz-ZenBook-UX363JA-UX363JA 5.15.0-139-generic #149~20.04.1-Ubuntu SMP Wed Apr 16 08:29:56 UTC 2025 x86_64",
+    "pdo_sqlite_loaded": true,
+    "sqlite_version": "3.38.5",
+    "concurrency": 100,
+    "requested_allocations": 10000,
+    "per_worker_timeout_seconds": 30,
+    "global_deadline": "none",
+    "engine": 424242,
+    "class_id": 1,
+    "role": 0,
+    "source_sha256": {
+        "/home/aziz/Desktop/AI_works/smart64-engine-controller/tests/../src/SmartId.php": "027b4920208d0ecb3c019e052f95d7727a9669fa0604d1c5a4bdeafc1cc1ec08",
+        "/home/aziz/Desktop/AI_works/smart64-engine-controller/tests/../src/AllocationJournal.php": "5af196c30bdbb7d71cc19f0ba835c88d178a0c4dcef11b8119bd478dfae16122",
+        "/home/aziz/Desktop/AI_works/smart64-engine-controller/tests/../src/Allocator.php": "ef670b3192a31ba78c056142b4b525baaec53cfc7bdb059142ccd146b76bbe3c"
+    },
+    "evidence_directory": "/home/aziz/Desktop/SMART64-evidence/10k-primary-20261018T204321Z-f6d87edf"
+}

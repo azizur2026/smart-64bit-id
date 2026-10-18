@@ -8,3 +8,11 @@ Versioned technical documentation for SMART 64-Bit ID.
 - [Deferred specification items](docs/Deferred-Specification-Items.md)
 - [Changelog](CHANGELOG.md)
 - [License](LICENSE)
+
+## Engine Controller
+
+- [SQLite Engine Controller — controlled alpha](smart64-engine-controller/README.md)
+
+The controller is a separate SQLite-based alpha component. See its
+README and test-scope documentation for validation results and limitations.
+It is not a claim of production readiness for the core SMART64 ID releases.

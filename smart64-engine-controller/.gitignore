@@ -1,0 +1,28 @@
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# SQLite runtime state
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+
+# Archives and temporary files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.tmp
+*.swp
+*~
+
+# Operating system / editor clutter
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
