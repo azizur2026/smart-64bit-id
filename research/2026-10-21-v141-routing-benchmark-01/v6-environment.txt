@@ -1,0 +1,93 @@
+SMART 64-bit ID v1.41 — GCC routing benchmark v6
+Captured UTC:
+2026-10-21T08:57:27Z
+
+=== Operating system ===
+Linux aziz-ZenBook-UX363JA-UX363JA 5.15.0-139-generic #149~20.04.1-Ubuntu SMP Wed Apr 16 08:29:56 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+NAME="Ubuntu"
+VERSION="20.04.6 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04.6 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal
+
+=== CPU ===
+Architecture:                         x86_64
+CPU op-mode(s):                       32-bit, 64-bit
+Byte Order:                           Little Endian
+Address sizes:                        39 bits physical, 48 bits virtual
+CPU(s):                               8
+On-line CPU(s) list:                  0-7
+Thread(s) per core:                   2
+Core(s) per socket:                   4
+Socket(s):                            1
+NUMA node(s):                         1
+Vendor ID:                            GenuineIntel
+CPU family:                           6
+Model:                                126
+Model name:                           Intel(R) Core(TM) i5-1035G1 CPU @ 1.00GHz
+Stepping:                             5
+CPU MHz:                              600.000
+CPU max MHz:                          3600.0000
+CPU min MHz:                          400.0000
+BogoMIPS:                             2380.80
+Virtualization:                       VT-x
+L1d cache:                            192 KiB
+L1i cache:                            128 KiB
+L2 cache:                             2 MiB
+L3 cache:                             6 MiB
+NUMA node0 CPU(s):                    0-7
+Vulnerability Gather data sampling:   Mitigation; Microcode
+Vulnerability Itlb multihit:          KVM: Mitigation: VMX disabled
+Vulnerability L1tf:                   Not affected
+Vulnerability Mds:                    Not affected
+Vulnerability Meltdown:               Not affected
+Vulnerability Mmio stale data:        Mitigation; Clear CPU buffers; SMT vulnerable
+Vulnerability Reg file data sampling: Not affected
+Vulnerability Retbleed:               Mitigation; Enhanced IBRS
+Vulnerability Spec rstack overflow:   Not affected
+Vulnerability Spec store bypass:      Mitigation; Speculative Store Bypass disabled via prctl and seccomp
+Vulnerability Spectre v1:             Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:             Mitigation; Enhanced / Automatic IBRS; IBPB conditional; RSB filling; PBRSB-eIBRS SW sequence; BHI SW loop, KVM SW loop
+Vulnerability Srbds:                  Mitigation; Microcode
+Vulnerability Tsx async abort:        Not affected
+Flags:                                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt intel_pt avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves split_lock_detect dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm md_clear flush_l1d arch_capabilities
+
+=== GCC ===
+gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0
+Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Target: x86_64-linux-gnu
+
+=== Benchmark build flags ===
+-O3 -fno-tree-vectorize -fno-tree-slp-vectorize -march=native -Wall -Wextra -Werror
+
+=== CPU frequency governor, if available ===
+ondemand
+
+=== Benchmark artifact hashes ===
+f93e9dd106419870ea993e1fcdd551961722e631c1d681d18217657db690876f  benchmark-v141-gcc-v6.c
+8af8941f3eac09cdd23917119666c66e923fb59a5bd912a9e83daf99cc04cbc2  benchmark-v141-gcc-v6
+
+=== Summary CSV hash ===
+b3620783e16c185bc0eb60b564f3e97587a5407aeb0811de46107249f9b7b1ce  v6-summary.csv
+
+=== Run exit statuses ===
+v6-run-01.exit-status: 0
+v6-run-02.exit-status: 0
+v6-run-03.exit-status: 0
+v6-run-04.exit-status: 0
+v6-run-05.exit-status: 0
+v6-run-06.exit-status: 0
+v6-run-07.exit-status: 0
+v6-run-08.exit-status: 0
+v6-run-09.exit-status: 0
+v6-run-10.exit-status: 0
