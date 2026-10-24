@@ -6,16 +6,16 @@ This is a navigational summary, not a replacement for [SPECIFICATION.md](SPECIFI
 
 1. A v1.41 identifier is an unsigned 64-bit value with the bit positions specified in the normative document.
 2. Bits 54–57 (Reserved) must be zero when generating a v1.41 identifier; a v1.41 decoder must reject nonzero Reserved bits as invalid v1.41.
-3. Class `0000` must not appear in an allocated SMART identifier.
+3. Bits 50–53 must be the fixed Class-marker `0000` in v1.41. This marker is not the effective Class. The effective Class is obtained from the authoritative Class-property record associated with Engine + Local; effective Class `0000` is invalid.
 4. Local `0` is valid; it is not a null or unassigned sentinel.
 5. Version/Revision must be interpreted before profile-dependent fields. Unknown profiles must not be guessed. A v1.x implementation must not interpret Version `1` as a v1.x identifier.
 6. A legacy-only v1.4 boundary must explicitly reject an incompatible v1.41 identifier and must not rewrite, truncate, mask, downgrade, or pass it downstream as valid v1.4.
 
 ## Identity semantics
 
-7. The 54-bit Identity Core is Class + Engine + Local and must remain stable for an allocated identity.
+7. The logical identity is associated with its effective Class property, Engine, and Local. In v1.41, bits 50–53 contain the fixed marker `0000`; they do not encode the effective Class.
 8. Role must remain stable for a given allocated identity. Creating, migrating, or changing a representation must preserve Role.
-9. Class must remain stable for an allocated identity. Reclassification must not mutate the existing identifier.
+9. The effective Class property must remain stable for an allocated identity. Reclassification must not mutate the existing identifier or its authoritative Class-property record.
 10. The allocation uniqueness coordinate is Engine + Local; Class does not partition this namespace.
 
 ## Allocation safety

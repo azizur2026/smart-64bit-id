@@ -32,7 +32,7 @@ The identity coordinate used for allocation uniqueness is `Engine + Local`. Clas
 
 ## 4. Class and Role
 
-Class encodes a compact category; it does not establish a universal ontology or decide who has authority to classify an entity. Class `0000` is invalid for allocated v1.41 identifiers. Existing identities must not be rewritten to change Class.
+The effective Class is a compact category; it does not establish a universal ontology or decide who has authority to classify an entity. In v1.41, bits 50–53 are the fixed Class-marker `0000`, not the effective Class. Effective Class `0000` is invalid. The effective Class is stored in the authoritative Class-property record associated with Engine + Local. Existing identities must not be rewritten to change Class.
 
 Role distinguishes a self-representing designation (`1`) from a dependent designation (`0`) in the applicable identification relationship. It does not itself establish legal capacity, ownership, authority, autonomy, human status, or organizational status. Associations between identities are external relationship data and cannot be inferred from Role alone.
 

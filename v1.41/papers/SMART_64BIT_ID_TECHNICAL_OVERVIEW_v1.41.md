@@ -13,7 +13,7 @@ Distributed applications need identifiers that remain stable and resolvable acro
 
 ## 2. Structure
 
-The fields from least-significant to most-significant bits are Local (29), Engine (21), Class (4), Reserved (4), Role (1), Revision (4), and Version (1). The Identity Core is Class + Engine + Local (54 bits). The allocation coordinate is Engine + Local (50 bits); Class does not partition it.
+The fields from least-significant to most-significant bits are Local (29), Engine (21), Class-marker (4), Reserved (4), Role (1), Revision (4), and Version (1). In v1.41, the Class-marker bits 50–53 must be `0000`; they do not encode the effective Class. The effective Class is stored in the authoritative Class-property record associated with Engine + Local. The allocation uniqueness coordinate is Engine + Local (50 bits); Class does not partition it.
 
 ## 3. Allocation and routing
 

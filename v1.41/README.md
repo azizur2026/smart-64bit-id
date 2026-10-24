@@ -33,7 +33,7 @@ This folder is the self-contained supporting package for the v1.41 profile. The 
 - The allocation uniqueness coordinate is `Engine + Local`; Class does not partition the allocation namespace.
 - The current normative routing selector is Engine, followed by Local lookup.
 - Role is structurally in the upper 10 bits but is semantically immutable for an allocated identity.
-- Reserved bits 54–57 must be zero in v1.41; Class `0000` is invalid for an allocated identifier.
+- Reserved bits 54–57 and the Class-marker bits 50–53 must both be zero in v1.41. The Class-marker is not the effective Class; effective Class `0000` is invalid and the effective Class is stored in the authoritative Class-property record associated with Engine + Local.
 - Canonical binary serialization is unsigned 64-bit big-endian/network byte order.
 - v1.4 is a separate legacy profile. Do not reinterpret its Region field as v1.41 Class and Reserved fields.
 
