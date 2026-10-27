@@ -1,0 +1,128 @@
+TEST_ID: PRECEDENCE-COVERAGE-001
+UTC: 2026-10-27T06:39:44Z
+WORKING_DIRECTORY: /home/aziz/Desktop/AI_works/DeepSeek/v1.42
+
+SOURCE_BYTE_HASH:
+bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da  examples/test-vectors.md
+
+EXACT_TEST_SCRIPT:
+import hashlib
+import re
+from pathlib import Path
+
+path = Path("examples/test-vectors.md")
+raw = path.read_bytes()
+text = raw.decode("utf-8")
+
+# Extract documented vector IDs and their expected error codes.
+rows = {}
+for line in text.splitlines():
+    if not line.lstrip().startswith("|"):
+        continue
+    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    if not cells:
+        continue
+    ident = cells[0]
+    if re.fullmatch(r"V-(?:IN|PRO)-[0-9]+b?", ident):
+        code = next(
+            (m.group(0) for cell in cells[1:]
+             if (m := re.search(r"S64-E\d{3}", cell))),
+            None
+        )
+        rows[ident] = (cells, code)
+
+checks = []
+
+checks.append(("source UTF-8 decoding", True))
+checks.append((
+    "all 10 input-format vectors extracted",
+    sum(k.startswith("V-IN-") for k in rows) == 10
+))
+checks.append((
+    "all 5 profile vectors extracted",
+    sum(k.startswith("V-PRO-") for k in rows) == 5
+))
+
+expected_input = {
+    "V-IN-01": "S64-E011",
+    "V-IN-02": "S64-E011",
+    "V-IN-03": "S64-E011",
+    "V-IN-04": "S64-E011",
+    "V-IN-05": "S64-E011",
+    "V-IN-06": "S64-E011",
+    "V-IN-06b": "S64-E011",
+    "V-IN-07": "S64-E001",
+    "V-IN-08": "S64-E001",
+    "V-IN-09": "S64-E001",
+}
+expected_profile = {
+    f"V-PRO-{n:02d}": "S64-E002" for n in range(1, 6)
+}
+
+for ident, expected in {**expected_input, **expected_profile}.items():
+    actual = rows.get(ident, (None, None))[1]
+    checks.append((
+        f"{ident}: expected {expected}, found {actual}",
+        actual == expected
+    ))
+
+# Explicit precedence coverage evidenced by the vectors:
+# malformed formatting -> E011, before length/profile checks;
+# valid hexadecimal but wrong length -> E001;
+# profile-invalid values -> E002.
+checks.append((
+    "malformed-format vectors map to E011",
+    all(rows.get(k, (None, None))[1] == "S64-E011"
+        for k in ["V-IN-01", "V-IN-02", "V-IN-03",
+                  "V-IN-04", "V-IN-05", "V-IN-06", "V-IN-06b"])
+))
+checks.append((
+    "wrong-length vectors map to E001",
+    all(rows.get(k, (None, None))[1] == "S64-E001"
+        for k in ["V-IN-07", "V-IN-08", "V-IN-09"])
+))
+checks.append((
+    "profile-invalid vectors map to E002",
+    all(rows.get(f"V-PRO-{n:02d}", (None, None))[1] == "S64-E002"
+        for n in range(1, 6))
+))
+
+for name, ok in checks:
+    print(f"{'PASS' if ok else 'FAIL'}: {name}")
+
+failed = sum(not ok for _, ok in checks)
+print(f"RESULT: {len(checks)-failed}/{len(checks)} checks passed")
+print("SOURCE_SHA256:", hashlib.sha256(raw).hexdigest())
+print("SCOPE: documented vector coverage and expected-code mapping only.")
+print("LIMIT: this does not prove precedence behavior or implementation conformance.")
+raise SystemExit(1 if failed else 0)
+
+TEST_OUTPUT:
+PASS: source UTF-8 decoding
+PASS: all 10 input-format vectors extracted
+PASS: all 5 profile vectors extracted
+PASS: V-IN-01: expected S64-E011, found S64-E011
+PASS: V-IN-02: expected S64-E011, found S64-E011
+PASS: V-IN-03: expected S64-E011, found S64-E011
+PASS: V-IN-04: expected S64-E011, found S64-E011
+PASS: V-IN-05: expected S64-E011, found S64-E011
+PASS: V-IN-06: expected S64-E011, found S64-E011
+PASS: V-IN-06b: expected S64-E011, found S64-E011
+PASS: V-IN-07: expected S64-E001, found S64-E001
+PASS: V-IN-08: expected S64-E001, found S64-E001
+PASS: V-IN-09: expected S64-E001, found S64-E001
+PASS: V-PRO-01: expected S64-E002, found S64-E002
+PASS: V-PRO-02: expected S64-E002, found S64-E002
+PASS: V-PRO-03: expected S64-E002, found S64-E002
+PASS: V-PRO-04: expected S64-E002, found S64-E002
+PASS: V-PRO-05: expected S64-E002, found S64-E002
+PASS: malformed-format vectors map to E011
+PASS: wrong-length vectors map to E001
+PASS: profile-invalid vectors map to E002
+RESULT: 21/21 checks passed
+SOURCE_SHA256: bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da
+SCOPE: documented vector coverage and expected-code mapping only.
+LIMIT: this does not prove precedence behavior or implementation conformance.
+
+EXIT_CODE: 0
+RESULT: PASS

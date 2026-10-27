@@ -1,0 +1,28 @@
+TEST_ID: FIELD-EXTRACTION-001
+TEST_SCOPE: Bit layout, extraction masks, and arithmetic round-trip
+TEST_TYPE: Static documentation plus independent arithmetic checks; not runtime conformance
+UTC_TIMESTAMP: 20261027T085054Z
+SOURCE_SHA256 SPECIFICATION.md: 1504daaf618648de7e891b31357aeff92d8342eb53fb54078457df48f92101b7
+SOURCE_SHA256 examples/test-vectors.md: bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da
+
+PASS: EXTRACT_Local: Specification contains: Local = ID & 0x1FFFFFFF
+PASS: EXTRACT_Engine: Specification contains: Engine = (ID >> 29) & 0x1FFFFF
+PASS: EXTRACT_Class: Specification contains: Class = (ID >> 50) & 0x0F
+PASS: EXTRACT_Reserved: Specification contains: Reserved = (ID >> 54) & 0x0F
+PASS: EXTRACT_Role: Specification contains: Role = (ID >> 58) & 0x01
+PASS: EXTRACT_Revision: Specification contains: Revision = (ID >> 59) & 0x0F
+PASS: EXTRACT_Version: Specification contains: Version = (ID >> 63) & 0x01
+PASS: NO_OVERLAP: All 64 bit positions are covered without overlap
+PASS: FULL_COVERAGE: Field ranges cover bits 0 through 63
+PASS: ROUNDTRIP_BOUNDARIES: Build/extract round-trip for 16 boundary cases
+FAIL: VECTOR_EXTRACT_Local: Test vectors contain: Local = ID & 0x1FFFFFFF
+FAIL: VECTOR_EXTRACT_Engine: Test vectors contain: Engine = (ID >> 29) & 0x1FFFFF
+FAIL: VECTOR_EXTRACT_Class: Test vectors contain: Class = (ID >> 50) & 0x0F
+FAIL: VECTOR_EXTRACT_Reserved: Test vectors contain: Reserved = (ID >> 54) & 0x0F
+FAIL: VECTOR_EXTRACT_Role: Test vectors contain: Role = (ID >> 58) & 0x01
+FAIL: VECTOR_EXTRACT_Revision: Test vectors contain: Revision = (ID >> 59) & 0x0F
+FAIL: VECTOR_EXTRACT_Version: Test vectors contain: Version = (ID >> 63) & 0x01
+
+CHECKS_RUN: 17
+FAILURES: 7
+RESULT: FAIL

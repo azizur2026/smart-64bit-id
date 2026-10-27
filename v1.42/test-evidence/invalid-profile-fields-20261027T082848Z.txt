@@ -1,0 +1,183 @@
+TEST_ID: INVALID-PROFILE-FIELDS-001
+UTC_TIMESTAMP: 20261027T082848Z
+SOURCE_SHA256:
+bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da  examples/test-vectors.md
+
+===== EXACT SCRIPT =====
+from pathlib import Path
+import re
+import sys
+
+source = Path("examples/test-vectors.md")
+lines = source.read_text(encoding="utf-8").splitlines()
+
+# Expected fields are taken from the documented V-PRO and V-FLD vectors.
+profiles = {
+    "V-PRO-01": (1, 2),
+    "V-PRO-02": (0, 0),
+    "V-PRO-03": (0, 1),
+    "V-PRO-04": (0, 3),
+    "V-PRO-05": (0, 7),
+}
+
+fields = {
+    "V-FLD-01": (0, 2, 1, 1, "E003"),
+    "V-FLD-02": (0, 2, 15, 1, "E003"),
+    "V-FLD-03": (0, 2, 0, 0, "E004"),
+    "V-FLD-04": (0, 2, 0, 9, "E005"),
+    "V-FLD-05": (0, 2, 0, 15, "E005"),
+    "V-FLD-06": (0, 2, 1, 9, "E003"),
+}
+
+rows = {}
+for line_number, line in enumerate(lines, 1):
+    cells = [cell.strip() for cell in line.split("|")]
+    if len(cells) < 4:
+        continue
+    vector = cells[1]
+    if vector in profiles or vector in fields:
+        rows[vector] = (line_number, cells)
+
+errors = []
+checks = 0
+
+def check(condition, message):
+    global checks
+    checks += 1
+    if condition:
+        print(f"PASS: {message}")
+    else:
+        print(f"FAIL: {message}")
+        errors.append(message)
+
+check(len(rows) == 11, f"found all 11 expected vectors (found {len(rows)})")
+
+for vector, (expected_version, expected_revision) in profiles.items():
+    if vector not in rows:
+        check(False, f"{vector} row exists")
+        continue
+
+    line_number, cells = rows[vector]
+    match = re.fullmatch(r"`([0-9A-Fa-f]{16})`", cells[2])
+    code_match = re.search(r"S64-E(\d{3})", cells[-1])
+
+    check(match is not None, f"{vector} has a 16-digit hexadecimal ID")
+    check(code_match is not None and code_match.group(1) == "002",
+          f"{vector} documents S64-E002")
+
+    if not match:
+        continue
+
+    value = int(match.group(1), 16)
+    version = (value >> 63) & 1
+    revision = (value >> 59) & 0xF
+
+    check((version, revision) == (expected_version, expected_revision),
+          f"{vector} decoded Version={version}, Revision={revision:04b}")
+
+    check(version != 0 or revision != 2,
+          f"{vector} is outside the v1.42 Version=0, Revision=0010 profile")
+
+for vector, expected in fields.items():
+    if vector not in rows:
+        check(False, f"{vector} row exists")
+        continue
+
+    line_number, cells = rows[vector]
+    match = re.fullmatch(r"`([0-9A-Fa-f]{16})`", cells[2])
+    code_match = re.search(r"S64-E(\d{3})", cells[-1])
+
+    check(match is not None, f"{vector} has a 16-digit hexadecimal ID")
+    if not match:
+        continue
+
+    value = int(match.group(1), 16)
+    version = (value >> 63) & 1
+    revision = (value >> 59) & 0xF
+    reserved = (value >> 54) & 0xF
+    class_value = (value >> 50) & 0xF
+
+    exp_version, exp_revision, exp_reserved, exp_class, exp_code = expected
+    check((version, revision, reserved, class_value) ==
+          (exp_version, exp_revision, exp_reserved, exp_class),
+          f"{vector} decoded fields match expected values")
+
+    actual_code = None if code_match is None else "E" + code_match.group(1)
+    check(actual_code == exp_code,
+          f"{vector} documents {exp_code}; found {actual_code}")
+
+    if reserved != 0:
+        calculated_code = "E003"
+    elif class_value == 0:
+        calculated_code = "E004"
+    elif class_value >= 9:
+        calculated_code = "E005"
+    else:
+        calculated_code = "NO_FIELD_ERROR"
+
+    check(calculated_code == exp_code,
+          f"{vector} expected error follows reserved-before-class precedence")
+
+print()
+print(f"CHECKS_RUN: {checks}")
+print(f"FAILURES: {len(errors)}")
+print("VALIDATION_SCOPE: Documentation vector/bit-field consistency only")
+print("IMPLEMENTATION_CONFORMANCE: NOT TESTED")
+print("SCRIPT_RESULT:", "PASS" if not errors else "FAIL")
+sys.exit(1 if errors else 0)
+
+===== TEST OUTPUT =====
+PASS: found all 11 expected vectors (found 11)
+PASS: V-PRO-01 has a 16-digit hexadecimal ID
+FAIL: V-PRO-01 documents S64-E002
+PASS: V-PRO-01 decoded Version=1, Revision=0010
+PASS: V-PRO-01 is outside the v1.42 Version=0, Revision=0010 profile
+PASS: V-PRO-02 has a 16-digit hexadecimal ID
+FAIL: V-PRO-02 documents S64-E002
+PASS: V-PRO-02 decoded Version=0, Revision=0000
+PASS: V-PRO-02 is outside the v1.42 Version=0, Revision=0010 profile
+PASS: V-PRO-03 has a 16-digit hexadecimal ID
+FAIL: V-PRO-03 documents S64-E002
+PASS: V-PRO-03 decoded Version=0, Revision=0001
+PASS: V-PRO-03 is outside the v1.42 Version=0, Revision=0010 profile
+PASS: V-PRO-04 has a 16-digit hexadecimal ID
+FAIL: V-PRO-04 documents S64-E002
+PASS: V-PRO-04 decoded Version=0, Revision=0011
+PASS: V-PRO-04 is outside the v1.42 Version=0, Revision=0010 profile
+PASS: V-PRO-05 has a 16-digit hexadecimal ID
+FAIL: V-PRO-05 documents S64-E002
+PASS: V-PRO-05 decoded Version=0, Revision=0111
+PASS: V-PRO-05 is outside the v1.42 Version=0, Revision=0010 profile
+PASS: V-FLD-01 has a 16-digit hexadecimal ID
+PASS: V-FLD-01 decoded fields match expected values
+FAIL: V-FLD-01 documents E003; found None
+PASS: V-FLD-01 expected error follows reserved-before-class precedence
+PASS: V-FLD-02 has a 16-digit hexadecimal ID
+PASS: V-FLD-02 decoded fields match expected values
+FAIL: V-FLD-02 documents E003; found None
+PASS: V-FLD-02 expected error follows reserved-before-class precedence
+PASS: V-FLD-03 has a 16-digit hexadecimal ID
+PASS: V-FLD-03 decoded fields match expected values
+FAIL: V-FLD-03 documents E004; found None
+PASS: V-FLD-03 expected error follows reserved-before-class precedence
+PASS: V-FLD-04 has a 16-digit hexadecimal ID
+PASS: V-FLD-04 decoded fields match expected values
+FAIL: V-FLD-04 documents E005; found None
+PASS: V-FLD-04 expected error follows reserved-before-class precedence
+PASS: V-FLD-05 has a 16-digit hexadecimal ID
+PASS: V-FLD-05 decoded fields match expected values
+FAIL: V-FLD-05 documents E005; found None
+PASS: V-FLD-05 expected error follows reserved-before-class precedence
+PASS: V-FLD-06 has a 16-digit hexadecimal ID
+PASS: V-FLD-06 decoded fields match expected values
+FAIL: V-FLD-06 documents E003; found None
+PASS: V-FLD-06 expected error follows reserved-before-class precedence
+
+CHECKS_RUN: 45
+FAILURES: 11
+VALIDATION_SCOPE: Documentation vector/bit-field consistency only
+IMPLEMENTATION_CONFORMANCE: NOT TESTED
+SCRIPT_RESULT: FAIL
+
+EXIT_CODE: 1
+SCRIPT_RESULT: FAIL

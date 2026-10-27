@@ -1,0 +1,6 @@
+Release: SMART 64-Bit ID v1.42 RC1
+Archive: v1.42-RC1-corrected.zip
+SHA-256: 602cb67056ff931df20748afa249ac19e57d594dbbb22fe13f18b0d016af664b
+Final release gate: PASS (8/8 checks, 0 failures)
+Scope: Documentation, recorded evidence, and ZIP integrity checked.
+Runtime implementation conformance: Not verified.

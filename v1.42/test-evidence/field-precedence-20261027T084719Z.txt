@@ -1,0 +1,17 @@
+TEST_ID: FIELD-PRECEDENCE-001
+TEST_SCOPE: Static documentation precedence consistency
+TEST_TYPE: Documentation validation; not runtime conformance
+UTC_TIMESTAMP: 20261027T084719Z
+SOURCE_SHA256 SPECIFICATION.md: 1504daaf618648de7e891b31357aeff92d8342eb53fb54078457df48f92101b7
+SOURCE_SHA256 examples/test-vectors.md: bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da
+SOURCE_SHA256 errors/ERROR-CODES.md: 85d0965e974817d2b78ed007632972711ac620ebe64cd8cbbf9b759b77ee71d5
+
+PASS: SPEC_FIELD_ORDER: Specification §16.1 lists Reserved, Class zero, then reserved Class values
+PASS: VECTOR_V_FLD_06: V-FLD-06 expects S64-E003
+PASS: VECTOR_EXPLANATION: V-FLD-06 explanation states E003 precedes E005
+PASS: VECTOR_PRECEDENCE_NOTE: Vector notes state E003 > E004 > E005
+PASS: ERROR_CODE_DEFINITIONS: Error catalogue defines all three field-validation codes
+
+CHECKS_RUN: 5
+FAILURES: 0
+RESULT: PASS

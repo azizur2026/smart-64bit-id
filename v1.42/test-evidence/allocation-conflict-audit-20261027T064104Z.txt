@@ -1,0 +1,180 @@
+TEST_ID: ALLOCATION-CONFLICT-CONSISTENCY-001
+UTC: 2026-10-27T06:41:04Z
+WORKING_DIRECTORY: /home/aziz/Desktop/AI_works/DeepSeek/v1.42
+
+SOURCE_FILE_HASHES:
+1504daaf618648de7e891b31357aeff92d8342eb53fb54078457df48f92101b7  SPECIFICATION.md
+bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da  examples/test-vectors.md
+08e08dbd95c598689b6565da5e6eb6c15db1dc2bc56fc12055051721c701b74f  RELEASE-CHECKLIST.md
+
+EXACT_TEST_SCRIPT:
+import hashlib
+import re
+from pathlib import Path
+
+files = [
+    Path("SPECIFICATION.md"),
+    Path("examples/test-vectors.md"),
+    Path("RELEASE-CHECKLIST.md"),
+]
+
+terms = re.compile(
+    r"allocation_conflict|S64-E009|E009|E030|"
+    r"canonical allocation|lifecycle State|"
+    r"same Engine|same.*Local|retirement|history-chain",
+    re.IGNORECASE,
+)
+
+checks = []
+all_text = {}
+
+for path in files:
+    if not path.is_file():
+        print(f"FILE MISSING: {path}")
+        checks.append((f"{path} exists", False))
+        continue
+
+    raw = path.read_bytes()
+    text = raw.decode("utf-8")
+    all_text[path.as_posix()] = text
+    print(f"FILE: {path}")
+    print(f"BYTES: {len(raw)}")
+    print(f"SHA256: {hashlib.sha256(raw).hexdigest()}")
+
+    matches = [
+        (i, line.strip())
+        for i, line in enumerate(text.splitlines(), 1)
+        if terms.search(line)
+    ]
+    print(f"MATCHING_LINES: {len(matches)}")
+    for number, line in matches:
+        print(f"  L{number}: {line}")
+
+    checks.append((f"{path} decodes as UTF-8", True))
+    checks.append((f"{path} contains relevant allocation references",
+                   bool(matches)))
+
+# Verify that the key policy language is present across the documents.
+combined = "\n".join(all_text.values()).lower()
+
+checks.append((
+    "E009 appears in the reviewed documents",
+    "e009" in combined
+))
+checks.append((
+    "E030 is not defined as a current v1.42 error code in these documents",
+    not re.search(r"\bS64-E030\b", combined)
+))
+checks.append((
+    "duplicate canonical allocation policy is explicitly mentioned",
+    "canonical allocation" in combined
+))
+checks.append((
+    "lifecycle-state independence is explicitly mentioned",
+    "lifecycle state" in combined
+))
+checks.append((
+    "history-chain or retirement handling is mentioned",
+    "history-chain" in combined or "retirement" in combined
+))
+
+for name, ok in checks:
+    print(f"{'PASS' if ok else 'FAIL'}: {name}")
+
+failed = sum(not ok for _, ok in checks)
+print(f"RESULT: {len(checks)-failed}/{len(checks)} checks passed")
+print("SCOPE: keyword/presence audit only; semantic agreement requires manual review.")
+raise SystemExit(1 if failed else 0)
+
+TEST_OUTPUT:
+FILE: SPECIFICATION.md
+BYTES: 59132
+SHA256: 1504daaf618648de7e891b31357aeff92d8342eb53fb54078457df48f92101b7
+MATCHING_LINES: 37
+  L20: - Role semantics and the retirement-and-reallocation path for a change of designation;
+  L25: - retirement, migration, the permanence of retired records, and the identifier history chain;
+  L133: A change in the designation associated with an entity is expressed by retirement and reallocation, not by rewriting the existing identifier:
+  L138: - The successor's canonical record MUST remain inactive and non-resolvable until the source's canonical record is ready to transition. Successor activation and source retirement MUST commit atomically from the perspective of ordinary lookups, or through an equivalent protocol guaranteeing the same externally observable result. At most one identifier in the history chain may be resolvable at any time. Any power cut or hardware failure invokes `FAIL_HARD`; no last-ID lookup or automatic resume is permitted (Section 7).
+  L142: The Class value MUST remain unchanged across the retirement-and-reallocation. The new identifier MUST carry the same Class as the retired identifier. A reallocation that would place the new identifier in an Engine of a different Class is S64-E015 ENGINE_CLASS_BINDING_VIOLATION.
+  L146: Because Engine determines Class (see Section 6), the new identifier MUST be allocated in an Engine of the same Class as the retired identifier. Subject to that constraint, the new identifier MAY be allocated in the same Engine as the retired identifier if that Engine has capacity and remains authoritative; otherwise, it MUST be allocated in another Engine of the same Class.
+  L192: The allocation registry MUST contain exactly one canonical allocation record for each Engine + Local coordinate ever allocated, regardless of lifecycle State. Two or more canonical allocation records for the same Engine + Local coordinate constitute S64-E009 ALLOCATION_CONFLICT whether their record States are identical or different. Retirement MUST update the existing canonical record; it MUST NOT create a second canonical record for the same coordinate. Append-only audit events MAY be stored separately, but MUST NOT be treated as canonical allocation records. History-chain links connect records for different coordinates; they do not permit duplicate canonical allocation records for one coordinate. Duplicates MUST be rejected before any record is selected for Class comparison or routing.
+  L206: The Class value MUST remain unchanged across any retirement-and-reallocation cycle, including a Role change (see Section 4.1). An operation that would reallocate an identifier into an Engine of a different Class is S64-E015 ENGINE_CLASS_BINDING_VIOLATION.
+  L278: - it is already bound to the same Class and has at least one safely allocatable Local ID remaining; or
+  L281: An Engine bound to another Class MUST be skipped and MUST NOT be reclassified. An Engine bound to the same Class but with no remaining Local IDs MUST be skipped.
+  L289: Existing identifiers in the exhausted Engine remain valid and routable. Existing identifiers are not migrated to the new Engine. Retirement and reallocation remain the only path by which an identity may acquire a coordinate in a new Engine.
+  L291: Because a retired coordinate is permanently consumed (Section 10), and because a Role change consumes one coordinate in the same Class (Section 4.1), Local exhaustion within an Engine advances by one coordinate per Role change. This is a known and accepted consequence of the coordinate-permanence rule. The rollover mechanism handles exhaustion by selecting the lowest eligible forward Engine ID under this section; the Class binding remains fixed across rollover.
+  L343: No two successful allocations for the same Engine may return the same Local ID.
+  L447: ## 10. Retirement, Migration, and Record Retention
+  L449: ### 10.1 Retirement and workflow status
+  L451: Retirement is a record-level transition. State (active or retired) is a property of the authoritative allocation record; it is not encoded as a bit in a v1.41 or v1.42 identifier. Legacy v1.4 encoded an active/retired State bit; that encoded bit is a v1.4 construct and MUST NOT be reinterpreted as v1.41 or v1.42 identity state.
+  L453: An identifier is retired by transitioning its allocation record from active to retired. Retirement is not expressed by modifying the 64-bit identifier.
+  L475: The retained record MUST preserve the identifier's Identity Core, its encoded Class, its Role, its allocation coordinate, its retirement status, and its history chain link (Section 10.6).
+  L477: In addition to the full retired record, a coordinate-consumption tombstone MUST be retained permanently for every consumed Engine + Local coordinate. The tombstone is the minimal durable record—coordinate, Class, allocating profile, retirement status—and is the fallback by which the reissue prohibition in Section 10.2 is enforced when the full retired record is no longer retained. The tombstone's retention is not conditional on the allocating profile remaining in force.
+  L489: Migration means retirement of an old identifier and allocation of a new identifier. The old identifier is never migrated, reused, or rewritten.
+  L491: Allocation precedes retirement. The sequence is:
+  L525: At most one identifier in a history chain is resolvable by ordinary lookups at any time. "Resolvable" is the operational property. Successor activation and source retirement MUST be atomic from the perspective of ordinary lookups, or use an equivalent protocol that guarantees the same property.
+  L531: ## 11. Engine Retirement
+  L543: Engine retirement is distinct from identifier retirement. An Engine may be retired while identifiers allocated within it remain active records, subject to the retention and resolution requirements that apply to those identifiers. Conversely, an identifier may be retired while its Engine remains active.
+  L706: 3. **Field validity.** Reserved MUST equal 0000 (S64-E003 RESERVED_BITS_NONZERO). Class MUST not be 0000 (S64-E004 CLASS_ZERO). Class MUST not be in 1001–1111 (S64-E005 CLASS_RESERVED). Role is validated as a single bit; both values are valid in v1.42. S64-E010 ROLE_INVALID is not a field-validation error; it applies to an operation that attempts to change Role in place, or that would express a Role change without retirement and reallocation (see Section 4.1).
+  L708: 4. **Authoritative checks.** Required authoritative queries MUST complete successfully before a missing-record, duplicate-record, or Class-comparison result is reported. If any required query cannot complete, report S64-E012 VALIDATION_UNAVAILABLE during ordinary operation; do not infer that a record is missing or mismatched from an unavailable query. If all required queries complete, the Engine + Local coordinate MUST be present in the allocation registry (S64-E008 ALLOCATION_NOT_FOUND). More than one canonical allocation record for the coordinate MUST be reported as S64-E009 ALLOCATION_CONFLICT, regardless of whether the records have identical or different lifecycle States. Duplicates MUST be rejected before any record is selected for Class comparison or routing, and Class agreement MUST NOT be used to choose between conflicting records. The authoritative Class-property record MUST exist (S64-E006 CLASS_RECORD_MISSING). The encoded Class MUST agree with the authoritative record (S64-E007 CLASS_MISMATCH, hard stop). A detected power cut or hardware failure invokes `FAIL_HARD` under Section 7, overriding ordinary validation and allocation error selection.
+  L750: If an operation changes Class or Role, the existing identity MUST NOT simply be rewritten to represent the new semantic designation. Class change requires a new Engine and is not a reallocation. Role change is retirement and reallocation (Section 4.1).
+  L770: - preserve Role for an allocated identifier, and reject any attempt to change Role in place or to express a Role change without retirement and reallocation (S64-E010 ROLE_INVALID);
+  L771: - express a Role change by retirement and reallocation, not by rewriting the identifier;
+  L772: - preserve the Class value unchanged across retirement and reallocation;
+  L777: - guarantee Local non-reuse within an Engine, including across retirement;
+  L793: An implementation that cannot satisfy an applicable safety, uniqueness, non-reuse, validation, Class-property, retention, history-chain, or interoperability requirement MUST NOT claim conformance to SMART v1.42.
+  L805: - reuse of a previously allocated Local ID within the same Engine;
+  L807: - two successful allocations returning the same Engine + Local coordinate;
+  L811: - expressing a Role change without retirement and reallocation;
+  L891: Local IDs MUST NOT be reused within an Engine. Two successful allocations MUST NOT share the same Engine + Local coordinate. A retired coordinate is permanently consumed and MUST NOT be reissued under any profile of the SMART 64-Bit ID family. There is no release point. This is consistent with GS1 and NIST SP 800-53 IA-4 practice; see BIBLIOGRAPHY.md.
+  L893: Role is immutable for the allocated identifier. A change of designation is expressed by retiring the identifier and allocating a new one, with the Class value preserved unchanged. Allocation precedes retirement. The successor is created inactive and linked into the history chain; successor activation and source retirement commit atomically, preserving at most one resolvable identifier at any time. Retired records are retained indefinitely while the allocating profile remains in force; a permanent coordinate-consumption tombstone is retained independently.
+FILE: examples/test-vectors.md
+BYTES: 23841
+SHA256: bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da
+MATCHING_LINES: 12
+  L7: **Document purpose:** Normative test vectors for v1.42 validation, routing, allocation, and retirement
+  L27: - Allocation, retirement, lifecycle, and conformance vectors carry their own stage label, as stated in `../errors/ERROR-CODES.md` §4.
+  L98: Role is a single bit. Both values are valid in v1.42. No field-level Role failure exists in v1.42. A Role change is expressed by retirement and reallocation (see §8), not by a field error. E010 is a lifecycle error, not a field error.
+  L112: | V-AUTH-05 | Two canonical allocation records exist for the same Engine + Local coordinate, one active and one retired | S64-E009 ALLOCATION_CONFLICT |
+  L113: | V-AUTH-05b | Two canonical allocation records exist for the same Engine + Local coordinate, both active | S64-E009 ALLOCATION_CONFLICT |
+  L122: Notes on V-AUTH-05 and V-AUTH-05b: more than one canonical allocation record for a coordinate is S64-E009 ALLOCATION_CONFLICT regardless of lifecycle State, as specified in SPECIFICATION.md §16.1 step 4. Retirement updates the existing canonical record; it does not create a second canonical allocation record. A successor in a history chain MUST use a different Engine + Local coordinate; audit events, if retained, are separate from the canonical allocation registry. The ERROR-CODES.md registry and SPECIFICATION.md consistently define S64-E009 ALLOCATION_CONFLICT for duplicate canonical allocation records regardless of lifecycle State. E030 is not defined in v1.42.
+  L158: These vectors test the retirement-and-reallocation path in SPECIFICATION.md §4.1, §10, and §10.5. They operate on allocation records, not on isolated 64-bit values, because retirement is a record-level transition and is not encoded in the identifier.
+  L160: Whether and when a designation change occurs is determined externally to this specification. These vectors test the mechanical invariants of the identifier pair given that a designation change has been determined and is to be expressed by retirement and reallocation. They do not assert, and must not be read as asserting, that any particular designation change is correct, lawful, or appropriate.
+  L162: ### 8.1 Designation change, same Engine
+  L166: | V-DESIG-01 | Identifier `1004000540000001` (Engine 42, Local 1, Class 0001, Role 0) is active. A new identifier is allocated in the same Engine (42), Class 0001, Role 1, Local 2: `1404000540000002`. The successor is allocated inactive and linked to the source; activation of the successor and retirement of the source commit atomically (or through an equivalent protocol with the same externally observable invariant). | Valid. Class unchanged. Role changed. At most one identifier in the chain is resolvable at any time. Retired coordinate (42, 1) permanently consumed. Retired record and tombstone retained. |
+  L178: | V-DESIG-03 | `1004000540000001` is active. A workflow step explicitly requiring the source to already be retired is attempted before the source-retirement transition commits. | S64-E024 RETIREMENT_REQUIRED |
+  L200: | V-ALLOC-04 | Two authoritative allocators both succeed within the same Engine. | S64-E020 CONCURRENT_ALLOCATOR |
+FILE: RELEASE-CHECKLIST.md
+BYTES: 12152
+SHA256: 08e08dbd95c598689b6565da5e6eb6c15db1dc2bc56fc12055051721c701b74f
+MATCHING_LINES: 14
+  L54: ## 5. E009 and identifier history
+  L56: - [ ] `S64-E009 ALLOCATION_CONFLICT` is defined consistently with the normative specification.
+  L57: - [ ] Test vectors verify that duplicate canonical records are classified as E009 regardless of lifecycle State.
+  L58: - [ ] Duplicate canonical allocation records at the same Engine + Local coordinate MUST be rejected as S64-E009 ALLOCATION_CONFLICT regardless of lifecycle State, including active/retired or other mixed-State pairs. History-chain successors MUST use different coordinates.
+  L62: - [ ] Test vectors distinguish duplicate canonical records (E009 regardless of State) from valid history-chain successors that use different coordinates.
+  L63: - [ ] E030 is not defined as an error code in v1.42. Duplicate canonical allocation records MUST use S64-E009 regardless of lifecycle State.
+  L71: - [ ] Engines already bound to the same Class but with no remaining allocatable Local IDs are skipped.
+  L94: ## 8. Retirement, migration, and history-chain transitions
+  L99: - [ ] The new record is created inactive, its authoritative Class-property record is created, and its history link is recorded before the activation/retirement transition completes, in the order specified.
+  L102: - [ ] If the final activation/retirement transition fails, the retry behavior follows the specification while preserving the resolvability invariant.
+  L103: - [ ] `S64-E024 RETIREMENT_REQUIRED` is not triggered merely because successor allocation precedes source retirement; the specification expressly defines allocation-before-retirement.
+  L104: - [ ] E024 is considered only for an operation or sequence step that specifically requires prior retirement, according to the registry definition.
+  L105: - [ ] A Role change is expressed by retirement and reallocation, not by rewriting the Role bit in an existing identifier.
+  L113: - [ ] History-chain vectors distinguish same-State duplicates from active/inactive records.
+PASS: SPECIFICATION.md decodes as UTF-8
+PASS: SPECIFICATION.md contains relevant allocation references
+PASS: examples/test-vectors.md decodes as UTF-8
+PASS: examples/test-vectors.md contains relevant allocation references
+PASS: RELEASE-CHECKLIST.md decodes as UTF-8
+PASS: RELEASE-CHECKLIST.md contains relevant allocation references
+PASS: E009 appears in the reviewed documents
+PASS: E030 is not defined as a current v1.42 error code in these documents
+PASS: duplicate canonical allocation policy is explicitly mentioned
+PASS: lifecycle-state independence is explicitly mentioned
+PASS: history-chain or retirement handling is mentioned
+RESULT: 11/11 checks passed
+SCOPE: keyword/presence audit only; semantic agreement requires manual review.
+
+EXIT_CODE: 0
+RESULT: PASS

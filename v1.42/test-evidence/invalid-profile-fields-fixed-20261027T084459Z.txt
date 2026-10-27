@@ -1,0 +1,23 @@
+TEST_ID: INVALID-PROFILE-FIELDS-001
+TEST_SCOPE: Documentation expected-code extraction and mapping
+TEST_TYPE: Static documentation validation; not runtime conformance
+UTC_TIMESTAMP: 20261027T084459Z
+SOURCE_FILE: examples/test-vectors.md
+SOURCE_SHA256: bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da
+TARGETS: 11
+ROWS_FOUND: 11
+
+PASS: V-PRO-01 line 71: S64-E002
+PASS: V-PRO-02 line 72: S64-E002
+PASS: V-PRO-03 line 73: S64-E002
+PASS: V-PRO-04 line 74: S64-E002
+PASS: V-PRO-05 line 75: S64-E002
+PASS: V-FLD-01 line 87: S64-E003
+PASS: V-FLD-02 line 88: S64-E003
+PASS: V-FLD-03 line 89: S64-E004
+PASS: V-FLD-04 line 90: S64-E005
+PASS: V-FLD-05 line 91: S64-E005
+PASS: V-FLD-06 line 92: S64-E003
+
+FAILURES: 0
+RESULT: PASS

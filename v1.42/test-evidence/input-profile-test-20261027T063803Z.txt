@@ -1,0 +1,110 @@
+TEST_ID: INPUT-PROFILE-TABLE-001
+UTC: 2026-10-27T06:38:03Z
+WORKING_DIRECTORY: /home/aziz/Desktop/AI_works/DeepSeek/v1.42
+
+SOURCE_BYTE_HASH:
+bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da  examples/test-vectors.md
+
+EXACT_TEST_SCRIPT:
+import re
+from pathlib import Path
+
+path = Path("examples/test-vectors.md")
+raw = path.read_bytes()
+text = raw.decode("utf-8")
+lines = text.splitlines()
+
+# Extract the two documented vector tables.
+wanted = {"V-IN-", "V-PRO-"}
+rows = []
+for line in lines:
+    if not line.lstrip().startswith("|"):
+        continue
+    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    if not cells:
+        continue
+    ident = cells[0]
+    if any(ident.startswith(prefix) for prefix in wanted):
+        rows.append((ident, cells))
+
+input_rows = [(i, c) for i, c in rows if i.startswith("V-IN-")]
+profile_rows = [(i, c) for i, c in rows if i.startswith("V-PRO-")]
+
+checks = []
+checks.append(("source decodes as UTF-8", True))
+checks.append(("9 input-format vectors found", len(input_rows) == 9))
+checks.append(("5 profile vectors found", len(profile_rows) == 5))
+
+# Verify table shape and expected error-code references, not runtime behavior.
+input_expected = {
+    "V-IN-01": "S64-E011", "V-IN-02": "S64-E011",
+    "V-IN-03": "S64-E011", "V-IN-04": "S64-E011",
+    "V-IN-05": "S64-E011", "V-IN-06": "S64-E011",
+    "V-IN-06b": "S64-E011", "V-IN-07": "S64-E001",
+    "V-IN-08": "S64-E001", "V-IN-09": "S64-E001",
+}
+profile_expected = {f"V-PRO-{n:02d}": "S64-E002" for n in range(1, 6)}
+
+def validate(table_rows, expected, label):
+    seen = {}
+    for ident, cells in table_rows:
+        if len(cells) < 3:
+            continue
+        outcome = next(
+            (cell for cell in cells[2:] if re.search(r"S64-E\d{3}", cell)),
+            None
+        )
+        if outcome:
+            match = re.search(r"S64-E\d{3}", outcome)
+            seen[ident] = match.group(0)
+        print(f"{label} ROW: {ident} | {' | '.join(cells[1:])}")
+    return seen
+
+input_seen = validate(input_rows, input_expected, "INPUT")
+profile_seen = validate(profile_rows, profile_expected, "PROFILE")
+
+checks.append((
+    "input vector expected codes match documented table",
+    all(input_seen.get(k) == v for k, v in input_expected.items())
+    and set(input_seen) == set(input_expected)
+))
+checks.append((
+    "profile vector expected codes match documented table",
+    all(profile_seen.get(k) == v for k, v in profile_expected.items())
+    and set(profile_seen) == set(profile_expected)
+))
+
+for name, ok in checks:
+    print(f"{'PASS' if ok else 'FAIL'}: {name}")
+
+failed = sum(not ok for _, ok in checks)
+print(f"RESULT: {len(checks)-failed}/{len(checks)} checks passed")
+print("SCOPE: documentation table consistency only; no implementation executed")
+raise SystemExit(1 if failed else 0)
+
+TEST_OUTPUT:
+INPUT ROW: V-IN-01 | `0x1404000540000001` | S64-E011 MALFORMED_INPUT
+INPUT ROW: V-IN-02 | ` 1404000540000001` | S64-E011 MALFORMED_INPUT
+INPUT ROW: V-IN-03 | `140400054000000G` | S64-E011 MALFORMED_INPUT
+INPUT ROW: V-IN-04 | `1404 0005 4000 0001` | S64-E011 MALFORMED_INPUT
+INPUT ROW: V-IN-05 | `14-04-00-05-40-00-00-01` | S64-E011 MALFORMED_INPUT
+INPUT ROW: V-IN-06 | `14040005@0000001` | S64-E011 MALFORMED_INPUT
+INPUT ROW: V-IN-06b | `xyz` | S64-E011 MALFORMED_INPUT
+INPUT ROW: V-IN-07 | `140400054000000` | S64-E001 INVALID_LENGTH
+INPUT ROW: V-IN-08 | `14040005400000001` | S64-E001 INVALID_LENGTH
+INPUT ROW: V-IN-09 | (empty) | S64-E001 INVALID_LENGTH
+PROFILE ROW: V-PRO-01 | `9404000540000001` | 1 | 0010 | S64-E002 UNSUPPORTED_PROFILE
+PROFILE ROW: V-PRO-02 | `0404000540000001` | 0 | 0000 | S64-E002 UNSUPPORTED_PROFILE
+PROFILE ROW: V-PRO-03 | `0C00000540000001` | 0 | 0001 | S64-E002 UNSUPPORTED_PROFILE
+PROFILE ROW: V-PRO-04 | `1C04000540000001` | 0 | 0011 | S64-E002 UNSUPPORTED_PROFILE
+PROFILE ROW: V-PRO-05 | `3C04000540000001` | 0 | 0111 | S64-E002 UNSUPPORTED_PROFILE
+PASS: source decodes as UTF-8
+FAIL: 9 input-format vectors found
+PASS: 5 profile vectors found
+PASS: input vector expected codes match documented table
+PASS: profile vector expected codes match documented table
+RESULT: 4/5 checks passed
+SCOPE: documentation table consistency only; no implementation executed
+
+EXIT_CODE: 1
+RESULT: FAIL

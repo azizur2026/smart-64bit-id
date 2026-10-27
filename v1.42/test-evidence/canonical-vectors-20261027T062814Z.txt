@@ -1,0 +1,15 @@
+TEST_ID: CANONICAL-VECTORS-001
+UTC: 2026-10-27T06:28:14Z
+WORKING_DIRECTORY: /home/aziz/Desktop/AI_works/DeepSeek/v1.42
+
+=== SOURCE FILE HASH ===
+bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da  examples/test-vectors.md
+
+=== TEST SCRIPT ===
+Run the canonical-vector Python test from the preceding message.
+
+=== TEST OUTPUT ===
+python3: can't open file '/tmp/canonical_vectors_test.py': [Errno 2] No such file or directory
+
+EXIT_CODE: 2
+RESULT: FAIL

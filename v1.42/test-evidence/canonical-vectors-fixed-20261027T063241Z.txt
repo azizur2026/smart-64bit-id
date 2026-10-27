@@ -1,0 +1,105 @@
+TEST_ID: CANONICAL-VECTORS-002
+UTC: 2026-10-27T06:32:41Z
+SOURCE_SHA256:
+bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da  examples/test-vectors.md
+
+TEST_SCRIPT:
+import re
+from pathlib import Path
+
+p = Path("examples/test-vectors.md")
+raw = p.read_bytes()
+text = raw.decode("utf-8")
+lines = text.splitlines()
+
+rows = []
+for line in lines:
+    if not re.search(r"\|\s*V-CLASS-", line):
+        continue
+    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    if len(cells) < 7:
+        continue
+    ident = re.fullmatch(r"V-CLASS-([01]{4})", cells[0])
+    hx = re.fullmatch(r"`?([0-9A-Fa-f]{16})`?", cells[1])
+    dec = re.fullmatch(r"[\d,]+", cells[2])
+    class_match = re.match(r"([01]{4})\b", cells[3])
+    engine = re.fullmatch(r"\d+", cells[4])
+    local = re.fullmatch(r"\d+", cells[5])
+    role = re.fullmatch(r"[01]", cells[6])
+    if all((ident, hx, dec, class_match, engine, local, role)):
+        rows.append((
+            ident.group(1), hx.group(1), dec.group(0),
+            class_match.group(1), int(engine.group()),
+            int(local.group()), int(role.group())
+        ))
+
+checks = [
+    ("source is valid UTF-8", True),
+    ("exactly 8 canonical rows found", len(rows) == 8),
+]
+
+print(f"Canonical rows parsed: {len(rows)}")
+if len(rows) != 8:
+    print("Diagnostic: lines containing V-CLASS:")
+    for line in lines:
+        if "V-CLASS-" in line:
+            print(repr(line))
+else:
+    decimal_ok = fields_ok = profile_ok = width_ok = True
+    for bits, hx, dec, class_col, engine, local, role in rows:
+        n = int(hx, 16)
+        actual = {
+            "Class": (n >> 50) & 0xF,
+            "Engine": (n >> 29) & 0x1FFFFF,
+            "Local": n & 0x1FFFFFFF,
+            "Role": (n >> 58) & 1,
+        }
+        expected = {
+            "Class": int(bits, 2),
+            "Engine": engine,
+            "Local": local,
+            "Role": role,
+        }
+        decimal_ok &= n == int(dec.replace(",", ""))
+        fields_ok &= actual == expected and bits == class_col
+        profile_ok &= (
+            ((n >> 63) & 1) == 0
+            and ((n >> 59) & 0xF) == 2
+            and ((n >> 54) & 0xF) == 0
+        )
+        width_ok &= len(bytes.fromhex(hx)) == 8
+        print(
+            f"VECTOR {bits}: hex={hx} decimal={int(dec.replace(',', ''))} "
+            f"actual={actual} expected={expected}"
+        )
+    checks += [
+        ("hexadecimal equals documented decimal", decimal_ok),
+        ("Class/Engine/Local/Role fields match table", fields_ok),
+        ("Version/Revision/Reserved profile matches", profile_ok),
+        ("each ID is exactly 8 bytes", width_ok),
+    ]
+
+for label, ok in checks:
+    print(f"{'PASS' if ok else 'FAIL'}: {label}")
+failed = sum(not ok for _, ok in checks)
+print(f"RESULT: {len(checks)-failed}/{len(checks)} checks passed")
+raise SystemExit(1 if failed else 0)
+
+TEST_OUTPUT:
+Canonical rows parsed: 8
+VECTOR 0001: hex=1404000540000001 decimal=1442277803213979649 actual={'Class': 1, 'Engine': 42, 'Local': 1, 'Role': 1} expected={'Class': 1, 'Engine': 42, 'Local': 1, 'Role': 1}
+VECTOR 0010: hex=1408000540000002 decimal=1443403703120822274 actual={'Class': 2, 'Engine': 42, 'Local': 2, 'Role': 1} expected={'Class': 2, 'Engine': 42, 'Local': 2, 'Role': 1}
+VECTOR 0011: hex=140C000540000003 decimal=1444529603027664899 actual={'Class': 3, 'Engine': 42, 'Local': 3, 'Role': 1} expected={'Class': 3, 'Engine': 42, 'Local': 3, 'Role': 1}
+VECTOR 0100: hex=1410000540000004 decimal=1445655502934507524 actual={'Class': 4, 'Engine': 42, 'Local': 4, 'Role': 1} expected={'Class': 4, 'Engine': 42, 'Local': 4, 'Role': 1}
+VECTOR 0101: hex=1414000540000005 decimal=1446781402841350149 actual={'Class': 5, 'Engine': 42, 'Local': 5, 'Role': 1} expected={'Class': 5, 'Engine': 42, 'Local': 5, 'Role': 1}
+VECTOR 0110: hex=1418000540000006 decimal=1447907302748192774 actual={'Class': 6, 'Engine': 42, 'Local': 6, 'Role': 1} expected={'Class': 6, 'Engine': 42, 'Local': 6, 'Role': 1}
+VECTOR 0111: hex=141C000540000007 decimal=1449033202655035399 actual={'Class': 7, 'Engine': 42, 'Local': 7, 'Role': 1} expected={'Class': 7, 'Engine': 42, 'Local': 7, 'Role': 1}
+VECTOR 1000: hex=1420000540000008 decimal=1450159102561878024 actual={'Class': 8, 'Engine': 42, 'Local': 8, 'Role': 1} expected={'Class': 8, 'Engine': 42, 'Local': 8, 'Role': 1}
+PASS: source is valid UTF-8
+PASS: exactly 8 canonical rows found
+PASS: hexadecimal equals documented decimal
+PASS: Class/Engine/Local/Role fields match table
+PASS: Version/Revision/Reserved profile matches
+PASS: each ID is exactly 8 bytes
+RESULT: 6/6 checks passed
+EXIT_CODE: 0

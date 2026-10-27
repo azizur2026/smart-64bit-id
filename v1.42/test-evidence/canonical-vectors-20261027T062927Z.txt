@@ -1,0 +1,81 @@
+TEST_ID: CANONICAL-VECTORS-001
+UTC: 2026-10-27T06:29:27Z
+WORKING_DIRECTORY: /home/aziz/Desktop/AI_works/DeepSeek/v1.42
+
+=== SOURCE BYTE HASH ===
+bf67d94d8e2fdcf920c5f6f8a15058e08eef0f2b0370f4b1d15bf7e65e8e15da  examples/test-vectors.md
+
+=== EXACT TEST SCRIPT ===
+import re
+from pathlib import Path
+
+p = Path("examples/test-vectors.md")
+raw = p.read_bytes()
+text = raw.decode("utf-8")
+
+pattern = re.compile(
+    r"\|\s*V-CLASS-([01]{4})\s*\|\s*`([0-9A-Fa-f]{16})`"
+    r"\s*\|\s*([\d,]+)\s*\|\s*([01]{4})\s+\w+"
+    r"\s*\|\s*(\d+)\s*\|\s*(\d+)\s*\|\s*([01])\s*\|"
+)
+rows = pattern.findall(text)
+
+checks = []
+checks.append(("source is valid UTF-8", True))
+checks.append(("exactly 8 canonical rows found", len(rows) == 8))
+
+if len(rows) == 8:
+    hex_decimal_ok = True
+    fields_ok = True
+    profile_ok = True
+    byte_width_ok = True
+
+    for bits, hx, dec, class_col, engine, local, role in rows:
+        n = int(hx, 16)
+        fields = {
+            "Class": (n >> 50) & 0xF,
+            "Engine": (n >> 29) & 0x1FFFFF,
+            "Local": n & 0x1FFFFFFF,
+            "Role": (n >> 58) & 1,
+        }
+        expected = {
+            "Class": int(bits, 2),
+            "Engine": int(engine),
+            "Local": int(local),
+            "Role": int(role),
+        }
+        hex_decimal_ok &= n == int(dec.replace(",", ""))
+        fields_ok &= fields == expected and bits == class_col
+        profile_ok &= (
+            ((n >> 63) & 1) == 0
+            and ((n >> 59) & 0xF) == 2
+            and ((n >> 54) & 0xF) == 0
+        )
+        byte_width_ok &= len(bytes.fromhex(hx)) == 8
+        print(
+            f"VECTOR {bits}: hex={hx} decimal={int(dec.replace(',', ''))} "
+            f"fields={fields}"
+        )
+
+    checks += [
+        ("hexadecimal equals documented decimal", hex_decimal_ok),
+        ("Class/Engine/Local/Role fields match table", fields_ok),
+        ("Version/Revision/Reserved profile matches", profile_ok),
+        ("each ID is exactly 8 bytes", byte_width_ok),
+    ]
+
+for name, ok in checks:
+    print(f"{'PASS' if ok else 'FAIL'}: {name}")
+
+failed = sum(not ok for _, ok in checks)
+print(f"RESULT: {len(checks)-failed}/{len(checks)} checks passed")
+raise SystemExit(1 if failed else 0)
+
+=== TEST OUTPUT ===
+PASS: source is valid UTF-8
+FAIL: exactly 8 canonical rows found
+RESULT: 1/2 checks passed
+
+EXIT_CODE: 1
+RESULT: FAIL
+exit
