@@ -1,0 +1,6 @@
+phase=post_restart
+database=s64_ct07_disposable
+engine_id=2
+captured_utc=2026-11-04T00:40:00Z
+100000	100000	1	100000	100001	10.4.32-MariaDB
+comparison=PASS

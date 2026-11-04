@@ -1,0 +1,17 @@
+S64 v1.42 corrected test revision
+Started UTC: 2026-11-03T20:33:46Z
+Database: s64_test
+Execution mode: CT-07 opt-in=1; CT-08 verify=0
+CT-01: PASS
+CT-02: PASS
+CT-05: PASS
+CT-03: PASS (duplicate composite key rejected; fixture rolled back)
+CT-04: PASS (seven expression-level assertions)
+CT-06: PASS (four Class comparison workflow assertions; transaction rolled back)
+CT-07: PASS (fresh isolated 1,000-worker workload; no deletion/reset)
+CT-08: INCOMPLETE (could not capture baseline; inspect CT-08/baseline-command.log)
+----------------------------------------
+PASSED: 7
+FAILED: 0
+INCOMPLETE: 1
+Finished UTC: 2026-11-03T20:49:17Z
