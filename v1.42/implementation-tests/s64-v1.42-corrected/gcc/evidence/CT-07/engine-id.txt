@@ -1,3 +1,0 @@
-database=s64_ct07_disposable
-engine_id=2
-initial_next_local_id=1
