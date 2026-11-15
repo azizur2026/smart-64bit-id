@@ -1,0 +1,15 @@
+S64 v1.42 - Fast batch (CT-01 .. CT-06)
+pkg=v0.r04 date=Nov 14, 2026
+started_utc=20261115T110042Z
+database=s64_test
+-----
+CT-01: PASS
+CT-02: PASS
+CT-05: PASS
+CT-03: PASS (6/6 assertions, strict)
+CT-04: PASS (expression-level, 8/8 strict)
+CT-06: PASS (8/8 strict)
+-----
+PASSED: 6
+FAILED: 0
+finished_utc=2026-11-15T11:00:43Z

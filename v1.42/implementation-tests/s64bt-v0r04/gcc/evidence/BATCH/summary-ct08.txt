@@ -1,0 +1,9 @@
+S64 v1.42 - CT-08 verify batch
+pkg=v0.r04 date=Nov 14, 2026
+started_utc=20261115T112515Z
+-----
+comparison=PASS
+baseline_uptime=2079 recovery_uptime=3
+PASSED: 1
+FAILED: 0
+finished_utc=2026-11-15T11:25:15Z

@@ -1,0 +1,2 @@
+CT-08: SCOPE=controlled-service-restart
+CT-08 baseline saved for Engine 1. Restart MariaDB manually, then run verify.

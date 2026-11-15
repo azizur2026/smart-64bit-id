@@ -1,0 +1,36 @@
+pkg_version=0
+pkg_revision=04
+pkg_date=Nov 14, 2026
+batch_start_utc=2026-11-15T11:00:43Z
+host=Linux aziz-ZenBook-UX363JA-UX363JA 5.15.0-139-generic #149~20.04.1-Ubuntu SMP Wed Apr 16 08:29:56 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+kernel=5.15.0-139-generic
+gcc=gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0
+mariadb=10.4.32-MariaDB
+db_controller=mysql
+socket=/opt/lampp/var/mysql/mysql.sock
+mysql_user=root
+lib_dir=/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04
+max_connections=2048
+open_files_limit=16384
+table_open_cache=64
+ulimit_n=8192
+--- package harness hashes ---
+1f25d8858e2f1e5f29282a17e2ee2e37442b9f49a6deaa59e8d4e1fcf39e09e2  00-prep-fresh-tree.sh
+f1a98ea4a8a9e2c389475c7a705c023d1afc6f8c28733d0906c51e8c32bd4e44  01-run-dry.sh
+b63c7ff048168960b57cd18a90784a91a21b6696c26e528d56dae200828a17fa  02-run-fast-tests.sh
+4b29b7e253939b076b54e05517fe4ff6b7b2f5c9c2471a1878ac91f621f58011  03-run-ct07.sh
+93675da0254c46da2bc382df06ad344b902f088ebb243cfa408dce2e7c82aa0b  04-run-ct08-verify.sh
+dea52e8a9d1d80095f47e848cc93afc185a306a638c8ecaa0ca810e725c4ee64  05-run-final-manifest.sh
+6c30690ca559f139c61a79e570a10f93a2e02376aa7dc011425ed16789a6b01e  lib.sh
+33196471f40e7281081bc67c05f1597719913a8165d8d1876ddfa2f30797029a  s64bt.config
+--- test source hashes ---
+602beed9500f11a870dbd7593098c199255a0b298f2a995ac8fb0c8f2c9a4913  CT-01-bit-encoding.c
+8c72399874a7312e1db7c33c4f12bb5fe3c62115f75037a6159a41065f88448a  CT-02-local-id-boundary.c
+93f3ed7de0a9c3422407434a067a06066b84e506a5c075a29bcdfb9ef6d27589  CT-03-engine-uniqueness.sql
+1cb03d85bbe9c26bd71a3550f7f95016a2217ab8cf3cd5dd75db27e29279e889  CT-04-cross-engine-isolation.sql
+5711dbfae204c60c27a60a107edfa3dc1fe796cffed76279beb225bcc0b76096  CT-05-profile-validation.c
+84bddf3d06863f96fd9613a4662203a6bb4208ff9bea8805f3fe225060f6282c  CT-06-class-consistency.sql
+a2b4bb0186a0c5d1478fa020adadc8c7016361f51bbf9b940f848c3b3ef3b861  CT-07-concurrent-allocation.c
+bba8382a40dddb3543daf0958380f67ce5a29d0e40909ba32878702bac89968f  CT-07-disposable-schema.sql
+670e758fed1521a5104b54fe6722a897f5f2e8e8ed4847719ea9e3c101f9c5f8  CT-08-persistence.sh
+b8308801efdb39eede8753ab4331684da79de630adfcdc804bfb489694f1f401  db-schema.sql

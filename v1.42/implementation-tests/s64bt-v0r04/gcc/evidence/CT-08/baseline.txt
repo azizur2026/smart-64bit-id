@@ -1,0 +1,6 @@
+phase=baseline
+database=s64_ct07_disposable
+engine_id=1
+captured_utc=2026-11-15T11:15:56Z
+mariadb_uptime_seconds=2079
+100000	100000	1	100000	100001	10.4.32-MariaDB

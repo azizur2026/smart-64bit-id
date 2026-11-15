@@ -1,0 +1,11 @@
+--- 2026-11-15T11:00:43Z applying CT-07-disposable-schema.sql ---
+--- schema applied successfully ---
+tables:
+allocation
+engine_counter
+physical_engine
+--- post-run audit (SUPPLEMENTARY; not a gate) ---
+engine_counter:
+1	100001
+current engine allocation snapshot:
+100000	100000	1	100000

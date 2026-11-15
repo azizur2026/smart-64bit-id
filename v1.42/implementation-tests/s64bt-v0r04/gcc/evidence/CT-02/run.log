@@ -1,0 +1,13 @@
+CT-02: SCOPE=test-local; production-allocator NOT exercised
+CT-02: assertion 1 PASS valid[0]
+CT-02: assertion 2 PASS valid[1]
+CT-02: assertion 3 PASS valid[2]
+CT-02: assertion 4 PASS valid[3]
+CT-02: assertion 5 PASS valid[4]
+CT-02: assertion 6 PASS invalid[0]
+CT-02: assertion 7 PASS invalid[1]
+CT-02: assertion 8 PASS invalid[2]
+CT-02: assertion 9 PASS invalid[3]
+CT-02: PASS
+valid_accepted=5 invalid_rejected=4
+assertions=9 passed=9

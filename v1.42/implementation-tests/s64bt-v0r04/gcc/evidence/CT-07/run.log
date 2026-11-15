@@ -1,0 +1,22 @@
+Provisioned isolated test Engine ID: 1 in database s64_ct07_disposable
+Database: s64_ct07_disposable
+Test Engine ID: 1
+Database allocation rows: 100000
+Distinct S64 IDs: 100000
+Min Local ID: 1
+Max Local ID: 100000
+Next Local ID: 100001
+Rows with wrong encoding: 0
+CT-07 workers: 1000
+Workers created: 1000
+Expected allocations: 100000
+Successful allocations: 100000
+Failed allocations: 0
+Deadlock/timeout retries: 0
+Duplicate-key errors: 0
+Connection failures: 0
+Elapsed seconds: 912.660
+Throughput: 109.57 allocations/sec
+Database integrity: PASS
+CT-07: PASS
+assertions=6 passed=6

@@ -1,0 +1,14 @@
+t1_composite_pk
+1
+t2_unique_s64
+1
+t3_unique_engine
+1
+t4_row_intact
+1
+t5_rollback_allocation
+1
+t6_rollback_engine
+1
+assertion_counts
+assertions=6 passed=6

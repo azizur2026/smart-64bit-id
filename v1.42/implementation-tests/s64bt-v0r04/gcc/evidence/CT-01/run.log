@@ -1,0 +1,22 @@
+CT-01: assertion 1 PASS canonical[0]
+CT-01: assertion 2 PASS canonical[1]
+CT-01: assertion 3 PASS canonical[2]
+CT-01: assertion 4 PASS canonical[3]
+CT-01: assertion 5 PASS v142[0]
+CT-01: assertion 6 PASS v142[1]
+CT-01: assertion 7 PASS v142[2]
+CT-01: assertion 8 PASS v142[3]
+CT-01: assertion 9 PASS v142[4]
+CT-01: assertion 10 PASS v142[5]
+CT-01: assertion 11 PASS v142[6]
+CT-01: assertion 12 PASS v142[7]
+CT-01: assertion 13 PASS cross[0]
+CT-01: assertion 14 PASS cross[1]
+CT-01: assertion 15 PASS cross[2]
+CT-01: assertion 16 PASS cross[3]
+CT-01: assertion 17 PASS boundary_count
+CT-01: assertion 18 PASS random_count
+CT-01: PASS
+canonical_vectors=4 v142_vectors=8 cross_version_vectors=4
+boundary_cases=2048 random_cases=1000000 total_round_trips=1002064
+assertions=18 passed=18

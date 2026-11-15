@@ -1,0 +1,82 @@
+S64 v1.42 — Evidence Manifest
+pkg=v0.r04 date=Nov 14, 2026
+generated_utc=20261115T112515Z
+host=Linux aziz-ZenBook-UX363JA-UX363JA 5.15.0-139-generic #149~20.04.1-Ubuntu SMP Wed Apr 16 08:29:56 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux
+gcc=gcc (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0
+mariadb=10.4.32-MariaDB
+
+=== Batch summaries (verbatim) ===
+--- fast ---
+S64 v1.42 - Fast batch (CT-01 .. CT-06)
+pkg=v0.r04 date=Nov 14, 2026
+started_utc=20261115T110042Z
+database=s64_test
+-----
+CT-01: PASS
+CT-02: PASS
+CT-05: PASS
+CT-03: PASS (6/6 assertions, strict)
+CT-04: PASS (expression-level, 8/8 strict)
+CT-06: PASS (8/8 strict)
+-----
+PASSED: 6
+FAILED: 0
+finished_utc=2026-11-15T11:00:43Z
+
+--- ct07 ---
+S64 v1.42 — CT-07 batch
+pkg=v0.r04 date=Nov 14, 2026
+started_utc=20261115T110043Z
+database=s64_ct07_disposable
+ct08_baseline=present
+-----
+CT-07: PASS
+PASSED: 1
+FAILED: 0
+finished_utc=2026-11-15T11:15:57Z
+
+--- ct08 ---
+S64 v1.42 - CT-08 verify batch
+pkg=v0.r04 date=Nov 14, 2026
+started_utc=20261115T112515Z
+-----
+comparison=PASS
+baseline_uptime=2079 recovery_uptime=3
+PASSED: 1
+FAILED: 0
+finished_utc=2026-11-15T11:25:15Z
+
+=== Source hash agreement across batches ===
+fast: c46267edb84a159094d171d8af101e81c742b1b718544c33948da5bcc9c45419
+ct07: c46267edb84a159094d171d8af101e81c742b1b718544c33948da5bcc9c45419
+ct08: c46267edb84a159094d171d8af101e81c742b1b718544c33948da5bcc9c45419
+
+=== File-by-file: path | size | sha256 | mtime_utc ===
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/META-ct07.txt | 2212 | 87a59db3e9902e9a12c0fd3f2a0ddddc44304cc5c9d05cc4920b088931f51f3c | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/META-ct08.txt | 2212 | 9b9b22cdadc747db7c8d247d7276eadd02b3b082771810a066999ba3a1653ac3 | 2026-11-15T11:25:15Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/META-fast.txt | 2212 | 87a59db3e9902e9a12c0fd3f2a0ddddc44304cc5c9d05cc4920b088931f51f3c | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/run-ct07-20261115T110043Z.log | 351 | 120e58b95aa424f334f4824d3602ff01fabc861419a6c8a2b247cede80fd8059 | 2026-11-15T11:15:57Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/run-ct08-20261115T112515Z.log | 135 | c120d883060fc84ba174f54884dff7aab670075ae54963feabd031261ae39554 | 2026-11-15T11:25:15Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/run-fast-20261115T110042Z.log | 323 | 597aaf14ab3395d26812d2281210d2274316875756589432fe5d18bbe0587383 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/summary-ct07.txt | 207 | ab792ff246575cb9fe6c4dc5671643d32da535563a6d97b9f570f6dfb1f87808 | 2026-11-15T11:15:57Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/summary-ct08.txt | 204 | 333c695e792842dc2fa3b245c71847dd78094f79fc4efdfff1c44d2f2ef4cabe | 2026-11-15T11:25:15Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/summary-fast.txt | 323 | 597aaf14ab3395d26812d2281210d2274316875756589432fe5d18bbe0587383 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-01/compile.log | 0 | e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-01/run.log | 783 | 2706b5022cb97d2183faa3b6a12930edff8dcbaa1dda61a0bc555538073612ea | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-02/compile.log | 0 | e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-02/run.log | 435 | b77d8c6f51a08f027ce3ef795094f81fc84afbc98388677c41b7bc5b474c4949 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-03/CT-03-run.sql | 2412 | 81255e5855353204238d4b1e5e2e39a6dee7374082d64956536235d42549f392 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-03/run.log | 154 | e49f585e7f675daefd0c917b9174743a10500fa92d93ed533dfd849a9cc3fe6b | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-04/run.log | 68 | 03c7f002b362ad7a347082d823385bc260905fd41a5f71b566c7108bed0f28f8 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-05/compile.log | 0 | e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-05/run.log | 2225 | e45948e296362d4d28b5afed2a8f13d009d352890ef8731d1576de03a925c273 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-06/CT-06-run.sql | 3659 | 16cf9ae74332ef29b7ad7c56d04322da81ca7ebebe0a817a22095cf7cc2f9b65 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-06/run.log | 38 | d95fc502ab912bedc27eba678390dd3581f32741e6a20834635d998161bd6d74 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-07/compile.log | 0 | e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 | 2026-11-15T11:00:43Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-07/database-setup.log | 287 | e25e07824cf521cce94987c364cdf4f517278e8fb38dc63bc74edb981bb85926 | 2026-11-15T11:15:56Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-07/engine-id.txt | 65 | c6406b3bac0e9e9d920f4dc2c6b2d82a77a563a116d2352422b424dc7c5b45d1 | 2026-11-15T11:00:44Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-07/run.log | 582 | 51f836dd28db9fd30136f5965d04f544a5407d4304da2530b764c3a156afde45 | 2026-11-15T11:15:56Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-08/baseline-command.log | 118 | 7727ad3b693b59487c5161deb0aa3ffd16832b58b3b7e30e9997bd5453126fc5 | 2026-11-15T11:15:57Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-08/baseline.txt | 164 | 68e77ecbfe2bcf9fb58099a187c39f4a096ece25c0971c34f552c35f320e3866 | 2026-11-15T11:15:57Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-08/recovery-results.txt | 165 | cc4ee7ccda311670424f10ac580511537b03263a37987a33a1a97a4c0f4cf32a | 2026-11-15T11:25:15Z
+/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/CT-08/verify-command.log | 55 | 80aa6458fc40cdc23ba8fe72757f9fc4520fbbe8c9e14fe65f07b2cc1610fa31 | 2026-11-15T11:25:15Z

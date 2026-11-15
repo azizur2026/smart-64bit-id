@@ -1,0 +1,11 @@
+final_stamp=20261115T112515Z
+pkg_version=0
+pkg_revision=04
+pkg_date=Nov 14, 2026
+final_utc=2026-11-15T11:25:16Z
+overall_pass=1
+manifest_path=/home/aziz/Desktop/AI_works/smart-64bit-id/v1.42/implementation-tests/s64bt-v0r04/gcc/evidence/BATCH/EVIDENCE-MANIFEST-20261115T112515Z.txt
+manifest_sha256=395d4c4172b890a2117d4e8ffb6cd0ba121c378263f22a2a3611be414642ed3e
+fast_pass=passed=6 failed=0
+ct07_pass=passed=1 failed=0
+ct08_pass=passed=1 failed=0
