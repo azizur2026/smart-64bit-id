@@ -1,0 +1,14 @@
+$ bash tests/sql/f3_audit_gap.sh
+NOTICE:  database "qdh_f3" does not exist, skipping
+$ psql -d qdh_f3 -f qdh_schema_postgresql.sql
+$ SELECT qdh_begin_quarantine('n1');
+
+$ SELECT node_id, node_state FROM physical_nodes;
+n1 NODE_QUARANTINED
+$ -- control-plane step: propagate the node fence to the engine
+$ -- gap before any quarantine event exists (SET ROLE s64_auditor_role)
+gap_rows=1
+$ python3 tests/sql/gen_event.py pg quarantine-epoch1 | psql -d qdh_f3
+$ -- gap after the epoch-1 event exists (SET ROLE s64_auditor_role)
+gap_rows=0
+exit=0

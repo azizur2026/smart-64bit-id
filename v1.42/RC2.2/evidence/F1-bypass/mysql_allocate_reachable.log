@@ -1,0 +1,4 @@
+$ sudo mysql -u s64_alloc -pallocpw qdh_schema -e CALL s64_allocate(1,0,0,1,'v1.42',1,REPEAT('0',64),NULL,@id);
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1644 (45001) at line 1: QDH-E019|S64-E013|COMMIT|1|0|0|1|(Class,Engine) does not resolve to a control-table row
+exit=1

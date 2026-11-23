@@ -1,0 +1,3 @@
+$ env PGPASSWORD=x psql -h localhost -U s64_alloc_pg -d qdh_hard -c SELECT qdh_commit_generation(1,0,0,'n','FAIL_HARD_RECLAIMED',gen_random_uuid());
+ERROR:  permission denied for function qdh_commit_generation
+exit=1

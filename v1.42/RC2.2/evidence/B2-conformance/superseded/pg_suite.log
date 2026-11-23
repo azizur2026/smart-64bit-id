@@ -1,0 +1,17 @@
+$ bash tests/sql/run.sh pg
+engine: pg  db: qdh_t
+C01  one identity, second refused                         PASS
+C02  revoked lease refused                                PASS
+C03  quarantined (E003 at lease gate), refused            PASS
+C04  reissue refused                                      PASS
+C05  INSERT denied at privilege layer                     PASS
+C06  no allocation committed                              PASS
+C07  HE refused without DE evidence                       PASS
+C08  watermark regression refused                         PASS
+C09  old-epoch lease refused                              PASS
+C10  bad hash refused                                     PASS
+C11  broken chain refused, first event intact             PASS
+C12  order: VALID / E002 / E004 / E008                    PASS
+C13  no forward candidate, allocation refused             PASS
+PASS=13 FAIL=0
+exit=0

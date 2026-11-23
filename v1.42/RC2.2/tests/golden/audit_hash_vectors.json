@@ -1,0 +1,216 @@
+{
+  "note": "RFC 8785 canonical form; event_hash omitted from body",
+  "vectors": [
+    {
+      "id": "TC-1",
+      "body": {
+        "event_id": "550e8400-e29b-41d4-a716-446655440000",
+        "stream_seq": 1,
+        "timestamp_utc": "2026-11-23T00:00:00.000000Z",
+        "event_type": "ENGINE_INITIAL_BOUND",
+        "generation_epoch": 1,
+        "virtual_engine": {
+          "class_id": 1,
+          "engine_id": 9
+        },
+        "lifecycle": {
+          "previous_state": "STATE_UNALLOCATED",
+          "new_state": "STATE_ACTIVE",
+          "epoch_before": 1,
+          "epoch_after": 1,
+          "profile_before": "v1.42",
+          "profile_after": "v1.42"
+        },
+        "watermark_audit": {
+          "prior_consumed_max": 0,
+          "durable_lease_ceiling": 0,
+          "verified_first_never_consumed_local": 0
+        },
+        "incident": {
+          "incident_id": "INC-20261123-0001",
+          "trigger_class": "FAIL_HARD_POWER_LOSS",
+          "physical_node_before": "n9",
+          "physical_node_after": "n9",
+          "he_attestation_digest": null
+        },
+        "diagnostic": {
+          "qdh_code": null,
+          "s64_code": null,
+          "orchestrator_node": "qdh-controller-01"
+        },
+        "prev_event_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "canonical": "{\"diagnostic\":{\"orchestrator_node\":\"qdh-controller-01\",\"qdh_code\":null,\"s64_code\":null},\"event_id\":\"550e8400-e29b-41d4-a716-446655440000\",\"event_type\":\"ENGINE_INITIAL_BOUND\",\"generation_epoch\":1,\"incident\":{\"he_attestation_digest\":null,\"incident_id\":\"INC-20261123-0001\",\"physical_node_after\":\"n9\",\"physical_node_before\":\"n9\",\"trigger_class\":\"FAIL_HARD_POWER_LOSS\"},\"lifecycle\":{\"epoch_after\":1,\"epoch_before\":1,\"new_state\":\"STATE_ACTIVE\",\"previous_state\":\"STATE_UNALLOCATED\",\"profile_after\":\"v1.42\",\"profile_before\":\"v1.42\"},\"prev_event_hash\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"stream_seq\":1,\"timestamp_utc\":\"2026-11-23T00:00:00.000000Z\",\"virtual_engine\":{\"class_id\":1,\"engine_id\":9},\"watermark_audit\":{\"durable_lease_ceiling\":0,\"prior_consumed_max\":0,\"verified_first_never_consumed_local\":0}}",
+      "sha256": "df46451b05c0c3f584a399e309334b773cb39db91fa1f556d8bda4f98fd8aa9c"
+    },
+    {
+      "id": "TC-2",
+      "body": {
+        "event_id": "550e8400-e29b-41d4-a716-446655440001",
+        "stream_seq": 7,
+        "timestamp_utc": "2026-11-23T01:02:03.123456Z",
+        "event_type": "RECLAMATION_COMMITTED",
+        "generation_epoch": 4,
+        "virtual_engine": {
+          "class_id": 1,
+          "engine_id": 9
+        },
+        "lifecycle": {
+          "previous_state": "STATE_HE_SANITIZING",
+          "new_state": "STATE_RECLAIM_COMMIT",
+          "epoch_before": 3,
+          "epoch_after": 4,
+          "profile_before": "v1.42",
+          "profile_after": "v1.42"
+        },
+        "watermark_audit": {
+          "prior_consumed_max": 1048575,
+          "durable_lease_ceiling": 1050000,
+          "verified_first_never_consumed_local": 1050000
+        },
+        "incident": {
+          "incident_id": "INC-20261123-0089",
+          "trigger_class": "FAIL_HARD_STORAGE_STALL",
+          "physical_node_before": "node-dhk-04",
+          "physical_node_after": "node-dhk-07",
+          "he_attestation_digest": "sha256:9f86d081884c7d659a2feaa0c55ad015"
+        },
+        "diagnostic": {
+          "qdh_code": null,
+          "s64_code": null,
+          "orchestrator_node": "qdh-controller-01"
+        },
+        "prev_event_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "canonical": "{\"diagnostic\":{\"orchestrator_node\":\"qdh-controller-01\",\"qdh_code\":null,\"s64_code\":null},\"event_id\":\"550e8400-e29b-41d4-a716-446655440001\",\"event_type\":\"RECLAMATION_COMMITTED\",\"generation_epoch\":4,\"incident\":{\"he_attestation_digest\":\"sha256:9f86d081884c7d659a2feaa0c55ad015\",\"incident_id\":\"INC-20261123-0089\",\"physical_node_after\":\"node-dhk-07\",\"physical_node_before\":\"node-dhk-04\",\"trigger_class\":\"FAIL_HARD_STORAGE_STALL\"},\"lifecycle\":{\"epoch_after\":4,\"epoch_before\":3,\"new_state\":\"STATE_RECLAIM_COMMIT\",\"previous_state\":\"STATE_HE_SANITIZING\",\"profile_after\":\"v1.42\",\"profile_before\":\"v1.42\"},\"prev_event_hash\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"stream_seq\":7,\"timestamp_utc\":\"2026-11-23T01:02:03.123456Z\",\"virtual_engine\":{\"class_id\":1,\"engine_id\":9},\"watermark_audit\":{\"durable_lease_ceiling\":1050000,\"prior_consumed_max\":1048575,\"verified_first_never_consumed_local\":1050000}}",
+      "sha256": "2a629ca905088b742f66dd95c02f3aa3375ce2b360a57d29e2b3e91c99a9a73c"
+    },
+    {
+      "id": "TC-3",
+      "body": {
+        "event_id": "550e8400-e29b-41d4-a716-446655440002",
+        "stream_seq": 8,
+        "timestamp_utc": "2026-11-23T01:05:00.000000Z",
+        "event_type": "FENCING_VIOLATION_BLOCKED",
+        "generation_epoch": 4,
+        "virtual_engine": {
+          "class_id": 1,
+          "engine_id": 9
+        },
+        "lifecycle": {
+          "previous_state": "STATE_ACTIVE",
+          "new_state": "STATE_ACTIVE",
+          "epoch_before": 4,
+          "epoch_after": 4,
+          "profile_before": "v1.42",
+          "profile_after": "v1.42"
+        },
+        "watermark_audit": {
+          "prior_consumed_max": 1048576,
+          "durable_lease_ceiling": 1050000,
+          "verified_first_never_consumed_local": null
+        },
+        "incident": {
+          "incident_id": "INC-20261123-0090",
+          "trigger_class": "FENCING_VIOLATION",
+          "physical_node_before": "node-dhk-07",
+          "physical_node_after": "node-dhk-07",
+          "he_attestation_digest": null
+        },
+        "diagnostic": {
+          "qdh_code": "QDH-E003",
+          "s64_code": "S64-E019",
+          "orchestrator_node": "qdh-controller-01"
+        },
+        "prev_event_hash": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae"
+      },
+      "canonical": "{\"diagnostic\":{\"orchestrator_node\":\"qdh-controller-01\",\"qdh_code\":\"QDH-E003\",\"s64_code\":\"S64-E019\"},\"event_id\":\"550e8400-e29b-41d4-a716-446655440002\",\"event_type\":\"FENCING_VIOLATION_BLOCKED\",\"generation_epoch\":4,\"incident\":{\"he_attestation_digest\":null,\"incident_id\":\"INC-20261123-0090\",\"physical_node_after\":\"node-dhk-07\",\"physical_node_before\":\"node-dhk-07\",\"trigger_class\":\"FENCING_VIOLATION\"},\"lifecycle\":{\"epoch_after\":4,\"epoch_before\":4,\"new_state\":\"STATE_ACTIVE\",\"previous_state\":\"STATE_ACTIVE\",\"profile_after\":\"v1.42\",\"profile_before\":\"v1.42\"},\"prev_event_hash\":\"2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae\",\"stream_seq\":8,\"timestamp_utc\":\"2026-11-23T01:05:00.000000Z\",\"virtual_engine\":{\"class_id\":1,\"engine_id\":9},\"watermark_audit\":{\"durable_lease_ceiling\":1050000,\"prior_consumed_max\":1048576,\"verified_first_never_consumed_local\":null}}",
+      "sha256": "ee60d1775546d95652fa2ce6e64813f350fbe039c7319f9a92f9fc388a46ccec"
+    },
+    {
+      "id": "TC-4",
+      "body": {
+        "event_id": "550e8400-e29b-41d4-a716-446655440003",
+        "stream_seq": 1,
+        "timestamp_utc": "2026-11-23T00:00:00.000000Z",
+        "event_type": "ENGINE_INITIAL_BOUND",
+        "generation_epoch": 1,
+        "virtual_engine": {
+          "class_id": 1,
+          "engine_id": 9
+        },
+        "lifecycle": {
+          "previous_state": "STATE_UNALLOCATED",
+          "new_state": "STATE_ACTIVE",
+          "epoch_before": 1,
+          "epoch_after": 1,
+          "profile_before": "v1.42",
+          "profile_after": "v1.42"
+        },
+        "watermark_audit": {
+          "prior_consumed_max": 0,
+          "durable_lease_ceiling": 0,
+          "verified_first_never_consumed_local": 0
+        },
+        "incident": {
+          "incident_id": "INC-20261123-0001",
+          "trigger_class": "FAIL_HARD_POWER_LOSS",
+          "physical_node_before": "n9",
+          "physical_node_after": "n9",
+          "he_attestation_digest": null
+        },
+        "diagnostic": {
+          "qdh_code": null,
+          "s64_code": null,
+          "orchestrator_node": "qdh-controller-01"
+        },
+        "prev_event_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "canonical": "{\"diagnostic\":{\"orchestrator_node\":\"qdh-controller-01\",\"qdh_code\":null,\"s64_code\":null},\"event_id\":\"550e8400-e29b-41d4-a716-446655440003\",\"event_type\":\"ENGINE_INITIAL_BOUND\",\"generation_epoch\":1,\"incident\":{\"he_attestation_digest\":null,\"incident_id\":\"INC-20261123-0001\",\"physical_node_after\":\"n9\",\"physical_node_before\":\"n9\",\"trigger_class\":\"FAIL_HARD_POWER_LOSS\"},\"lifecycle\":{\"epoch_after\":1,\"epoch_before\":1,\"new_state\":\"STATE_ACTIVE\",\"previous_state\":\"STATE_UNALLOCATED\",\"profile_after\":\"v1.42\",\"profile_before\":\"v1.42\"},\"prev_event_hash\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"stream_seq\":1,\"timestamp_utc\":\"2026-11-23T00:00:00.000000Z\",\"virtual_engine\":{\"class_id\":1,\"engine_id\":9},\"watermark_audit\":{\"durable_lease_ceiling\":0,\"prior_consumed_max\":0,\"verified_first_never_consumed_local\":0}}",
+      "sha256": "542a1a1d65ebb4e83690444fca50922bccbc56b460a31a44c16fa385df593658"
+    },
+    {
+      "id": "TC-5",
+      "body": {
+        "event_id": "550e8400-e29b-41d4-a716-446655440000",
+        "stream_seq": 1,
+        "timestamp_utc": "2026-11-23T00:00:00.000000Z",
+        "event_type": "ENGINE_INITIAL_BOUND",
+        "generation_epoch": 1,
+        "virtual_engine": {
+          "class_id": 1,
+          "engine_id": 9
+        },
+        "lifecycle": {
+          "previous_state": "STATE_UNALLOCATED",
+          "new_state": "STATE_ACTIVE",
+          "epoch_before": 1,
+          "epoch_after": 1,
+          "profile_before": "v1.42",
+          "profile_after": "v1.42"
+        },
+        "watermark_audit": {
+          "prior_consumed_max": 0,
+          "durable_lease_ceiling": 0,
+          "verified_first_never_consumed_local": 0
+        },
+        "incident": {
+          "incident_id": "INC-20261123-0001",
+          "trigger_class": "FAIL_HARD_POWER_LOSS",
+          "physical_node_before": "n9",
+          "physical_node_after": "n9",
+          "he_attestation_digest": null
+        },
+        "diagnostic": {
+          "qdh_code": null,
+          "s64_code": null,
+          "orchestrator_node": "qdh-controller-01"
+        },
+        "prev_event_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "canonical": "{\"diagnostic\":{\"orchestrator_node\":\"qdh-controller-01\",\"qdh_code\":null,\"s64_code\":null},\"event_id\":\"550e8400-e29b-41d4-a716-446655440000\",\"event_type\":\"ENGINE_INITIAL_BOUND\",\"generation_epoch\":1,\"incident\":{\"he_attestation_digest\":null,\"incident_id\":\"INC-20261123-0001\",\"physical_node_after\":\"n9\",\"physical_node_before\":\"n9\",\"trigger_class\":\"FAIL_HARD_POWER_LOSS\"},\"lifecycle\":{\"epoch_after\":1,\"epoch_before\":1,\"new_state\":\"STATE_ACTIVE\",\"previous_state\":\"STATE_UNALLOCATED\",\"profile_after\":\"v1.42\",\"profile_before\":\"v1.42\"},\"prev_event_hash\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"stream_seq\":1,\"timestamp_utc\":\"2026-11-23T00:00:00.000000Z\",\"virtual_engine\":{\"class_id\":1,\"engine_id\":9},\"watermark_audit\":{\"durable_lease_ceiling\":0,\"prior_consumed_max\":0,\"verified_first_never_consumed_local\":0}}",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "expect": "verification failure -> QDH-E011"
+    }
+  ]
+}

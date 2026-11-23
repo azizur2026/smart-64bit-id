@@ -1,0 +1,4 @@
+$ sudo mysql -u s64_alloc -pallocpw qdh_schema -e INSERT INTO identity_records (class_id,engine_id,local_id,full_smart_id,role_bit,allocated_profile,allocated_epoch,history_chain_root_id) VALUES (1,0,0,999,1,'v1.42',1,REPEAT('b',64));
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1142 (42000) at line 1: INSERT command denied to user 's64_alloc'@'localhost' for table 'identity_records'
+exit=1

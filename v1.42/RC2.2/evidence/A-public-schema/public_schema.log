@@ -1,0 +1,5 @@
+$ bash tests/sql/check_public_schema.sh
+public_can_create=false
+test_role_can_create=false
+public_schema_owner=aziz
+exit=0

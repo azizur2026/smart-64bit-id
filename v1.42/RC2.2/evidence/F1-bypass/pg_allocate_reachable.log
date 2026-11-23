@@ -1,0 +1,9 @@
+$ env PGPASSWORD=x psql -h localhost -U s64_alloc_pg -d qdh_hard -c SELECT s64_allocate(1,0,0,1,'v1.42',1,repeat('0',64),NULL);
+ERROR:  QDH-E019|S64-E013|COMMIT|1|0|0|1|(Class,Engine) does not resolve to a control-table row
+DETAIL:  {"qdh_code" : "QDH-E019", "s64_code" : "S64-E013", "operation_class" : "COMMIT", "class_id" : 1, "engine_id" : 0, "local_id" : 0, "generation_epoch" : 1, "human_message" : "(Class,Engine) does not resolve to a control-table row"}
+CONTEXT:  PL/pgSQL function qdh_raise(text,text,text,text,integer,integer,integer,bigint,text) line 3 at RAISE
+SQL statement "SELECT qdh_raise('45001','QDH-E019','S64-E013','COMMIT',
+                          p_class, p_engine, p_local, p_epoch,
+                          '(Class,Engine) does not resolve to a control-table row')"
+PL/pgSQL function s64_allocate(integer,integer,integer,integer,text,bigint,text,numeric) line 26 at PERFORM
+exit=1

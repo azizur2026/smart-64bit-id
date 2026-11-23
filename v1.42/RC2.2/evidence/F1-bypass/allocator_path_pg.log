@@ -1,0 +1,9 @@
+--- allocator path postgresql ---
+$ bash tests/sql/allocator_path.sh pg
+PASS allocation call succeeded as s64_alloc_pg
+PASS smart_id=1442277780665401344
+PASS counts=1 1 1 1
+PASS tombstone=1:0:0 CONSUMED
+PASS direct insert denied
+ALL CHECKS PASSED
+exit=0

@@ -1,0 +1,8 @@
+$ sudo mysql -e SHOW GRANTS FOR s64_allocator_role;
+Grants for s64_allocator_role@%
+GRANT USAGE ON *.* TO `s64_allocator_role`@`%`
+GRANT SELECT ON `qdh_schema`.* TO `s64_allocator_role`@`%`
+GRANT EXECUTE ON PROCEDURE `qdh_schema`.`s64_allocate_range` TO `s64_allocator_role`@`%`
+GRANT EXECUTE ON PROCEDURE `qdh_schema`.`s64_allocate` TO `s64_allocator_role`@`%`
+GRANT EXECUTE ON PROCEDURE `qdh_schema`.`s64_retire` TO `s64_allocator_role`@`%`
+exit=0
